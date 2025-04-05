@@ -1,1 +1,2 @@
-# Generated files goe in this folder
+This folder contains generated files
+
