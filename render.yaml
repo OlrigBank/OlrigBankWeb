@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: olrig-bank-web
+    env: docker
+    plan: free
+    branch: development
+    region: oregon
+    autoDeploy: true
+    runtime: docker
+    healthCheckPath: /health

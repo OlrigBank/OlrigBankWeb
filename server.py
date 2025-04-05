@@ -2,10 +2,16 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# Standard
 @app.route('/')
 def index():
     return render_template("index.html")
 
+@app.route('/health')
+def health():
+    return "OK", 200
+
+# Content
 @app.route('/whats-on')
 def whats_on():
     return render_template("whats_on.html")
