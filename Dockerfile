@@ -12,7 +12,8 @@ COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Expose Flask port
 EXPOSE 8080
 
-# Default command — production (Gunicorn)
-CMD ["gunicorn", "server:app", "--bind", "0.0.0.0:8080"]
+# Command to run generator first, then start Flask
+CMD ["sh", "-c", "python generate_site.py && flask run --host=0.0.0.0 --port=8080"]

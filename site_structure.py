@@ -5,5 +5,6 @@ pages = [
     {"title": "Eating Out", "parent": "Home"},
     {"title": "Local Walks", "parent": "Home"},
     {"title": "Castle History", "parent": "Local Attractions"},
+    {"title": "Kendal Climbing Wall", "parent": "Local Attractions"},
     {"title": "Farmers Market", "parent": "Whats On"}
 ]
