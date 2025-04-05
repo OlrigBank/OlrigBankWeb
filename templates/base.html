@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Olrig Bank{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/whats-on">What's On</a></li>
+      <li><a href="/local-attractions">Local Attractions</a></li>
+      <li><a href="/eating-out">Eating Out</a></li>
+      <li><a href="/local-walks">Local Walks</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
