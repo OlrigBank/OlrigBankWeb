@@ -6,10 +6,9 @@ services:
       pip install -r requirements.txt
       python generate_site.py
     startCommand: gunicorn server:app --bind 0.0.0.0:8080
+    healthCheckPath: /health
     plan: free
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
     autoDeploy: true
-    runtime: docker
-    healthCheckPath: /health
