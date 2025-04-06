@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Olrig Bank | {% block title %}Page Title{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+{% include "_partials/_header.html" %}
+
+<nav id="main-nav">
+    {{ navigation|safe }}
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% include "_partials/_footer.html" %}
+
+
+<script>
+    function toggleMenu() {
+        var nav = document.getElementById("main-nav");
+        nav.classList.toggle("open");
+    }
+</script>
+
+</body>
+</html>

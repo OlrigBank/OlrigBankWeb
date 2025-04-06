@@ -2,8 +2,8 @@ import os
 from site_structure import pages
 
 TEMPLATE_DIR = "templates"
+PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 SERVER_FILE = "server.py"
-BASE_TEMPLATE = os.path.join(TEMPLATE_DIR, "base.html")
 HOME_TEMPLATE = os.path.join(TEMPLATE_DIR, "home.html")
 
 
@@ -30,7 +30,17 @@ def validate_structure(pages):
     print("✅ Structure validated: Home page present.")
 
 
-def generate_menu(tree, parent="Home", indent=4):
+def ensure_directories():
+    if not os.path.exists(TEMPLATE_DIR):
+        os.makedirs(TEMPLATE_DIR)
+        print(f"✅ Created missing directory: {TEMPLATE_DIR}")
+
+    if not os.path.exists(PARTIALS_DIR):
+        os.makedirs(PARTIALS_DIR)
+        print(f"✅ Created missing directory: {PARTIALS_DIR}")
+
+
+def generate_menu(tree, current_title=None, parent="Home", indent=4):
     if parent not in tree:
         return ""
 
@@ -41,39 +51,19 @@ def generate_menu(tree, parent="Home", indent=4):
         if page["parent"] != "Home" and slug != "home":
             route = "/" + slugify(page["parent"]) + "/" + slug
 
-        menu += " " * (indent + 2) + f'<li><a href="{route}">{page["title"]}</a>\n'
-        menu += generate_menu(tree, page["title"], indent + 4)
+        # Active link
+        class_attr = ' class="active"' if page["title"] == current_title else ""
+
+        menu += " " * (indent + 2) + f'<li><a href="{route}"{class_attr}>{page["title"]}</a>\n'
+        menu += generate_menu(tree, current_title, page["title"], indent + 4)
         menu += " " * (indent + 2) + "</li>\n"
     menu += " " * indent + "</ul>\n"
     return menu
 
 
-def generate_base_html(menu_html):
-    base_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Olrig Bank | {{% block title %}}Page Title{{% endblock %}}</title>
-    <link rel="stylesheet" href="{{{{ url_for('static', filename='css/style.css') }}}}">
-</head>
-<body>
-<nav>
-{menu_html.strip()}
-</nav>
-<main>
-    {{% block content %}}{{% endblock %}}
-</main>
-</body>
-</html>
-"""
-    with open(BASE_TEMPLATE, "w") as f:
-        f.write(base_html)
-    print(f"✅ Generated base.html with menu")
-
-
 def generate_home_template():
     with open(HOME_TEMPLATE, "w") as f:
-        f.write("""{% extends "base.html" %}
+        f.write("""{% extends "_partials/_base.html" %}
 
 {% block title %}Home{% endblock %}
 
@@ -98,7 +88,7 @@ def generate_templates(tree, parent="Home"):
 
         if not os.path.exists(template_filename):
             with open(template_filename, "w") as f:
-                f.write(f"""{{% extends "base.html" %}}
+                f.write(f"""{{% extends "_partials/_base.html" %}}
 
 {{% block title %}}{page['title']}{{% endblock %}}
 
@@ -111,14 +101,18 @@ def generate_templates(tree, parent="Home"):
         else:
             print(f"⏩ Template already exists: {template_filename}")
 
-        # Recursive call for child pages
         generate_templates(tree, page["title"])
 
 
 def generate_server(tree):
     with open(SERVER_FILE, "w") as f:
-        f.write("from flask import Flask, render_template\n\n")
+        f.write("from flask import Flask, render_template\n")
+        f.write("from site_structure import pages\n")
+        f.write("from generate_site import build_page_tree, generate_menu\n\n")
         f.write("app = Flask(__name__)\n\n")
+        f.write("tree = build_page_tree(pages)\n")
+        f.write("def build_menu(current_title):\n")
+        f.write("    return generate_menu(tree, current_title=current_title)\n\n")
 
         # Health check route
         f.write("@app.route('/health')\n")
@@ -128,11 +122,10 @@ def generate_server(tree):
         # Home route
         f.write("@app.route('/')\n")
         f.write("def home():\n")
-        f.write("    return render_template('home.html', title='Home')\n\n")
+        f.write("    return render_template('home.html', title='Home', navigation=build_menu('Home'))\n\n")
 
         def write_route(page):
             slug = slugify(page["title"])
-            function_name = slug
             route = "/" if page["parent"] == "Home" and slug == "home" else "/" + slug
             if page["parent"] != "Home" and slug != "home":
                 route = "/" + slugify(page["parent"]) + "/" + slug
@@ -140,15 +133,13 @@ def generate_server(tree):
             template_path = f"{slugify(page['parent'])}/{slug}.html" if page["parent"] != "Home" else f"{slug}.html"
 
             f.write(f"@app.route('{route}')\n")
-            f.write(f"def {function_name}():\n")
-            f.write(f"    return render_template('{template_path}', title=\"{page['title']}\")\n\n")
+            f.write(f"def {slug}():\n")
+            f.write(f"    return render_template('{template_path}', title=\"{page['title']}\", navigation=build_menu(\"{page['title']}\"))\n\n")
 
-            # Recurse for child pages
             if page["title"] in tree:
                 for child in tree[page["title"]]:
                     write_route(child)
 
-        # Generate routes for pages under Home
         if "Home" in tree:
             for page in tree["Home"]:
                 write_route(page)
@@ -162,12 +153,11 @@ def generate_server(tree):
 def main():
     print("🔧 Starting site generation...")
 
+    ensure_directories()
     validate_structure(pages)
 
     tree = build_page_tree(pages)
 
-    menu_html = generate_menu(tree)
-    generate_base_html(menu_html)
     generate_home_template()
     generate_templates(tree)
     generate_server(tree)
