@@ -1,7 +1,16 @@
-venv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+env/
+.venv/
+.git/
+.gitignore
+Dockerfile
+docker-compose.yml
+render.yaml
 *.db
+*.sqlite3
+.idea/
+.vscode/
 .env

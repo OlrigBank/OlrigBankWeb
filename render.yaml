@@ -1,14 +1,7 @@
 services:
   - type: web
     name: olrig-bank
-    env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      python generate_site.py
-    startCommand: gunicorn server:app --bind 0.0.0.0:8080
-    healthCheckPath: /health
+    env: docker
     plan: free
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11
     autoDeploy: true
+    healthCheckPath: /health
