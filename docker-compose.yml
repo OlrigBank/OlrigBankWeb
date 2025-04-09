@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      target: builder
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=server.py
+    command: /bin/sh -c "python generate_site.py && flask run --host=0.0.0.0 --port=8080 --reload"
