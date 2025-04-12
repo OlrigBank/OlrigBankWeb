@@ -153,7 +153,7 @@ def generate_server(tree):
 def generate_generated_partials(menus, offerings):
     os.makedirs(GENERATED_PARTIALS_DIR, exist_ok=True)
 
-    # Menu partial
+    # ✅ Menu partial
     menu_file = os.path.join(GENERATED_PARTIALS_DIR, "menu_content.html")
     with open(menu_file, "w") as f:
         f.write("<ul>\n")
@@ -163,24 +163,32 @@ def generate_generated_partials(menus, offerings):
         f.write("</ul>\n")
     print(f"✅ Generated: {menu_file}")
 
-    # Offerings partial
+    # ✅ Offerings partial
     offerings_file = os.path.join(GENERATED_PARTIALS_DIR, "offerings_content.html")
     with open(offerings_file, "w") as f:
         for menu in menus:
             slug = slugify(menu["menu"])
-            f.write(f'<div class="category-card" data-category="{slug}">{menu["menu"]}</div>\n')
 
+            # Category card (always present!)
+            f.write(f'<div class="category-card" data-category="{slug}">\n')
+            f.write(f'  <h2>{menu["menu"]}</h2>\n')
+            if "text" in menu:
+                f.write(f'  <p>{menu["text"]}</p>\n')
+            f.write('</div>\n\n')
+
+            # Offerings for this category
             menu_offerings = [o for o in offerings if o["menu"] == menu["menu"]]
-            if menu_offerings:
-                for offering in menu_offerings:
-                    image_path = f'images/{offering["image"]}.png'
-                    f.write('<div class="offering-card">\n')
-                    f.write(f'  <a href="{offering["link"]}" target="_blank">\n')
-                    f.write(f'    <img src="{image_path}" alt="{offering["text"]}">\n')
-                    f.write(f'    <p>{offering["text"]}</p>\n')
-                    f.write('  </a>\n')
-                    f.write('</div>\n')
+            for offering in menu_offerings:
+                image_path = f'images/{offering["image"]}'
+                f.write('<div class="offering-card">\n')
+                f.write(f'  <a href="{offering["link"]}" target="_blank">\n')
+                f.write(f'    <img src="{image_path}" alt="{offering["text"]}">\n')
+                f.write(f'    <p>{offering["text"]}</p>\n')
+                f.write('  </a>\n')
+                f.write('</div>\n\n')
+
     print(f"✅ Generated: {offerings_file}")
+
 
 
 def main():
