@@ -1,3 +1,3 @@
 # OlrigBankWeb
 
-Release to render 0.0.10
+Release to render 0.0.12
