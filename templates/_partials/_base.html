@@ -8,13 +8,11 @@
 </head>
 <body>
 
-    <header>
-        <h1>Olrig Bank</h1>
-    </header>
+    {% include "_partials/_header.html" %}
 
     <div class="container">
         <aside class="side-menu">
-            {% include "_partials/_menu.html" %}
+            {{ navigation | safe }}
         </aside>
 
         <main class="content">
@@ -22,9 +20,7 @@
         </main>
     </div>
 
-    <footer>
-        <p>&copy; {{ 2025 }} Olrig Bank. All rights reserved.</p>
-    </footer>
+    {% include "_partials/_footer.html" %}
 
     <!-- Optional: Scroll tracking script -->
     <script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
