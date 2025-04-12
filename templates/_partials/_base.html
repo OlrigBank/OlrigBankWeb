@@ -8,19 +8,26 @@
 </head>
 <body>
 
-    {% include "_partials/_header.html" %}
+    <header>
+        {% include "_partials/_header.html" %}
+    </header>
 
     <div class="container">
         <aside class="side-menu">
-            {{ navigation | safe }}
+            {% include "_partials/_menu.html" %}
         </aside>
 
         <main class="content">
             {% block content %}{% endblock %}
+
+            <!-- Offerings section (always included on pages that want it) -->
+            {% include "_partials/_offerings.html" %}
         </main>
     </div>
 
-    {% include "_partials/_footer.html" %}
+    <footer>
+        {% include "_partials/_footer.html" %}
+    </footer>
 
     <!-- Optional: Scroll tracking script -->
     <script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
