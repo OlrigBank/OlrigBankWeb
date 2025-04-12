@@ -5,6 +5,7 @@ TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 SERVER_FILE = "server.py"
 HOME_TEMPLATE = os.path.join(TEMPLATE_DIR, "home.html")
+MENU_PARTIAL = os.path.join(PARTIALS_DIR, "_menu.html")
 
 
 def slugify(title):
@@ -40,7 +41,7 @@ def ensure_directories():
         print(f"✅ Created missing directory: {PARTIALS_DIR}")
 
 
-def generate_menu(tree, current_title=None, parent="Home", indent=4):
+def generate_menu(tree, parent="Home", current_title="", indent=4):
     if parent not in tree:
         return ""
 
@@ -51,14 +52,20 @@ def generate_menu(tree, current_title=None, parent="Home", indent=4):
         if page["parent"] != "Home" and slug != "home":
             route = "/" + slugify(page["parent"]) + "/" + slug
 
-        # Active link
-        class_attr = ' class="active"' if page["title"] == current_title else ""
+        active_class = "active" if page["title"] == current_title else ""
 
-        menu += " " * (indent + 2) + f'<li><a href="{route}"{class_attr}>{page["title"]}</a>\n'
-        menu += generate_menu(tree, current_title, page["title"], indent + 4)
+        menu += " " * (indent + 2) + f'<li><a href="{route}" class="{active_class}">{page["title"]}</a>\n'
+        menu += generate_menu(tree, page["title"], current_title=current_title, indent=indent + 4)
         menu += " " * (indent + 2) + "</li>\n"
     menu += " " * indent + "</ul>\n"
     return menu
+
+
+def generate_menu_partial(tree):
+    menu_html = generate_menu(tree)
+    with open(MENU_PARTIAL, "w") as f:
+        f.write(menu_html)
+    print(f"✅ Generated menu partial at {MENU_PARTIAL}")
 
 
 def generate_home_template():
@@ -86,9 +93,9 @@ def generate_templates(tree, parent="Home"):
 
         template_filename = os.path.join(folder_path, f"{slug}.html")
 
-        if not os.path.exists(template_filename):
-            with open(template_filename, "w") as f:
-                f.write(f"""{{% extends "_partials/_base.html" %}}
+        # Always regenerate
+        with open(template_filename, "w") as f:
+            f.write(f"""{{% extends "_partials/_base.html" %}}
 
 {{% block title %}}{page['title']}{{% endblock %}}
 
@@ -97,10 +104,9 @@ def generate_templates(tree, parent="Home"):
 <p>Content coming soon for {page['title']}.</p>
 {{% endblock %}}
 """)
-            print(f"✅ Created template: {template_filename}")
-        else:
-            print(f"⏩ Template already exists: {template_filename}")
+        print(f"✅ (Re)generated template: {template_filename}")
 
+        # Recurse for child pages
         generate_templates(tree, page["title"])
 
 
@@ -108,11 +114,9 @@ def generate_server(tree):
     with open(SERVER_FILE, "w") as f:
         f.write("from flask import Flask, render_template\n")
         f.write("from site_structure import pages\n")
-        f.write("from generate_site import build_page_tree, generate_menu\n\n")
+        f.write("from generate_site import build_page_tree\n\n")
         f.write("app = Flask(__name__)\n\n")
-        f.write("tree = build_page_tree(pages)\n")
-        f.write("def build_menu(current_title):\n")
-        f.write("    return generate_menu(tree, current_title=current_title)\n\n")
+        f.write("tree = build_page_tree(pages)\n\n")
 
         # Health check route
         f.write("@app.route('/health')\n")
@@ -122,7 +126,7 @@ def generate_server(tree):
         # Home route
         f.write("@app.route('/')\n")
         f.write("def home():\n")
-        f.write("    return render_template('home.html', title='Home', navigation=build_menu('Home'))\n\n")
+        f.write("    return render_template('home.html', title='Home')\n\n")
 
         def write_route(page):
             slug = slugify(page["title"])
@@ -134,8 +138,9 @@ def generate_server(tree):
 
             f.write(f"@app.route('{route}')\n")
             f.write(f"def {slug}():\n")
-            f.write(f"    return render_template('{template_path}', title=\"{page['title']}\", navigation=build_menu(\"{page['title']}\"))\n\n")
+            f.write(f"    return render_template('{template_path}', title=\"{page['title']}\")\n\n")
 
+            # Recurse for child pages
             if page["title"] in tree:
                 for child in tree[page["title"]]:
                     write_route(child)
@@ -158,6 +163,7 @@ def main():
 
     tree = build_page_tree(pages)
 
+    generate_menu_partial(tree)
     generate_home_template()
     generate_templates(tree)
     generate_server(tree)

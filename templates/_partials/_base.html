@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Olrig Bank | {% block title %}Page Title{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-{% include "_partials/_header.html" %}
+    <header>
+        <h1>Olrig Bank</h1>
+    </header>
 
-<nav id="main-nav">
-    {{ navigation|safe }}
-</nav>
+    <div class="container">
+        <aside class="side-menu">
+            {% include "_partials/_menu.html" %}
+        </aside>
 
-<main>
-    {% block content %}{% endblock %}
-</main>
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 
-{% include "_partials/_footer.html" %}
+    <footer>
+        <p>&copy; {{ 2025 }} Olrig Bank. All rights reserved.</p>
+    </footer>
 
-
-<script>
-    function toggleMenu() {
-        var nav = document.getElementById("main-nav");
-        nav.classList.toggle("open");
-    }
-</script>
+    <!-- Optional: Scroll tracking script -->
+    <script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
 
 </body>
 </html>
