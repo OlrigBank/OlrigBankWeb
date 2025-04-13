@@ -1,7 +1,7 @@
 import os
 from site_structure import menus, offerings
 
-VERSION = "0.0.22"
+VERSION = "0.0.23"
 TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 GENERATED_PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "generated")
@@ -124,7 +124,7 @@ def generate_generated_partials(menus, offerings):
 
             menu_offerings = [o for o in offerings if o["menu"] == menu["menu"]]
             for offering in menu_offerings:
-                image_path = f'images/{offering["image"]}.png'
+                image_path = f'{{{{ url_for(\'static\', filename=\'images/{offering["image"]}.png\') }}}}'
                 f.write('<div class="offering-card">\n')
                 f.write(f'  <a href="{offering["link"]}" target="_blank">\n')
                 f.write(f'    <img src="{image_path}" alt="{offering["text"]}">\n')

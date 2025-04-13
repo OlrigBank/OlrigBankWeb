@@ -9,11 +9,11 @@ menus = [
 
 offerings = [
     {"menu": "Whats On", "text": "Use the Visit Kendal site to find out what's on during your stay",
-     "image": "whatsonkendal.png", "link": "https://visit-kendal.co.uk/"},
+     "image": "whatsonkendal", "link": "https://visit-kendal.co.uk/"},
     {"menu": "Eating Out", "text": "A wonderful place to visit for lunch Tuesdays, Thursdays and Saturdays!",
-     "image": "kendalpeoplescafe.png", "link": "https://wasteintowellbeing.org.uk/kendal-peoples-cafe/"},
+     "image": "kendalpeoplescafe", "link": "https://wasteintowellbeing.org.uk/kendal-peoples-cafe/"},
     {"menu": "Local Walks", "text": "Play the grand old Duke of Kendal!",
-     "image": "kendalcastle.png", "link": "https://www.alltrails.com/trail/england/cumbria/kendal-castle-trail"},
-    {"menu": "Activities", "text": "The Quaker Tapestry tells the story of Quakers in 77 embroidered panels", "image": "qtm.png", "link": "https://www.quaker-tapestry.co.uk/"},
-    {"menu": "Activities", "text": "Kids climbing the walls? Visit the Kendal Climbing Wall!", "image": "kcw.png", "link": "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"},
+     "image": "kendalcastle", "link": "https://www.alltrails.com/trail/england/cumbria/kendal-castle-trail"},
+    {"menu": "Activities", "text": "The Quaker Tapestry tells the story of Quakers in 77 embroidered panels", "image": "qtm", "link": "https://www.quaker-tapestry.co.uk/"},
+    {"menu": "Activities", "text": "Kids climbing the walls? Visit the Kendal Climbing Wall!", "image": "kcw", "link": "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"},
 ]
