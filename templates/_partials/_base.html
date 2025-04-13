@@ -2,35 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Olrig Bank | {% block title %}Page Title{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
 </head>
 <body>
 
-    <header>
-        {% include "_partials/_header.html" %}
-    </header>
+<div class="container">
+    <aside class="side-menu">
+        {% include "_partials/_menu.html" %}
+    </aside>
 
-    <div class="container">
-        <aside class="side-menu">
-            {% include "_partials/_menu.html" %}
-        </aside>
+    <main class="content">
+        {% block content %}{% endblock %}
 
-        <main class="content">
-            {% block content %}{% endblock %}
+        <!-- Offerings section (always included on pages that want it) -->
+        {% include "_partials/_offerings.html" %}
+    </main>
 
-            <!-- Offerings section (always included on pages that want it) -->
-            {% include "_partials/_offerings.html" %}
-        </main>
-    </div>
-
-    <footer>
+</div>
+<footer>
         {% include "_partials/_footer.html" %}
-    </footer>
+</footer>
 
-    <!-- Optional: Scroll tracking script -->
-    <script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
+<!-- Optional: Scroll tracking script -->
+<script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
 
 </body>
 </html>

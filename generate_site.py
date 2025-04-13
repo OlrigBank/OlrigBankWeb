@@ -1,7 +1,7 @@
 import os
 from site_structure import menus, offerings
 
-VERSION = "0.0.16"
+VERSION = "0.0.18"
 TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 GENERATED_PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "generated")
