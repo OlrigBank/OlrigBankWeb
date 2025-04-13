@@ -69,13 +69,6 @@ def generate_menu(tree, parent="Home", current_title="", indent=4):
 def generate_home_template():
     with open(HOME_TEMPLATE, "w") as f:
         f.write("""{% extends "_partials/_base.html" %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
-<h1>Welcome to Olrig Bank</h1>
-<p>This is the home page. Use the menu to navigate.</p>
-{% endblock %}
 """)
     print(f"✅ Generated home.html")
 
