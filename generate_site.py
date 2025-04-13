@@ -80,37 +80,6 @@ def generate_home_template():
     print(f"✅ Generated home.html")
 
 
-def generate_templates(tree, parent="Home"):
-    if parent not in tree:
-        return
-
-    for item in tree[parent]:
-        slug = slugify(item["menu"])
-        folder_path = os.path.join(TEMPLATE_DIR, slugify(parent)) if parent != "Home" else TEMPLATE_DIR
-        os.makedirs(folder_path, exist_ok=True)
-
-        template_filename = os.path.join(folder_path, f"{slug}.html")
-
-        # Safeguard: only create if not existing (no overwrite!)
-        if not os.path.exists(template_filename):
-            with open(template_filename, "w") as f:
-                f.write(f"""{{% extends "_partials/_base.html" %}}
-
-{{% block title %}}{item['menu']}{{% endblock %}}
-
-{{% block content %}}
-<h1>{item['menu']}</h1>
-<p>Content coming soon for {item['menu']}.</p>
-{{% endblock %}}
-""")
-            print(f"✅ Created template: {template_filename}")
-        else:
-            print(f"⏩ Template already exists: {template_filename}")
-
-        # Recursive for child pages
-        generate_templates(tree, item["menu"])
-
-
 def generate_server(tree, version):
     with open(SERVER_FILE, "w") as f:
         f.write("from flask import Flask, render_template\n")
@@ -191,7 +160,6 @@ def main():
     tree = build_page_tree(menus)
 
     generate_home_template()
-    generate_templates(tree)
     generate_server(tree, VERSION)
     generate_generated_partials(menus, offerings)
 
