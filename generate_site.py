@@ -1,10 +1,12 @@
 import os
 from site_structure import menus, offerings
 
+VERSION = "0.0.16"
 TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 GENERATED_PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "generated")
-SERVER_FILE = "server.py"
+SERVER_DIR = "src"
+SERVER_FILE = os.path.join(SERVER_DIR, "server.py")
 HOME_TEMPLATE = os.path.join(TEMPLATE_DIR, "home.html")
 
 
@@ -32,11 +34,17 @@ def validate_structure(menus):
 
 
 def ensure_directories():
-    for directory in [TEMPLATE_DIR, PARTIALS_DIR, GENERATED_PARTIALS_DIR]:
+    for directory in [SERVER_DIR, TEMPLATE_DIR, PARTIALS_DIR, GENERATED_PARTIALS_DIR]:
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"✅ Created missing directory: {directory}")
 
+    # Ensure __init__.py exists in src/
+    init_file = os.path.join(SERVER_DIR, "__init__.py")
+    if not os.path.exists(init_file):
+        with open(init_file, "w") as f:
+            f.write("# This file makes src a Python package.\n")
+            print(f"✅ Created: {init_file}")
 
 def generate_menu(tree, parent="Home", current_title="", indent=4):
     if parent not in tree:
@@ -103,13 +111,14 @@ def generate_templates(tree, parent="Home"):
         generate_templates(tree, item["menu"])
 
 
-def generate_server(tree):
+def generate_server(tree, version):
     with open(SERVER_FILE, "w") as f:
         f.write("from flask import Flask, render_template\n")
-        f.write("from site_structure import menus\n")
+        f.write("from site_structure import menus, offerings\n")
         f.write("from generate_site import build_page_tree, generate_menu\n\n")
-        f.write("app = Flask(__name__)\n\n")
-        f.write("tree = build_page_tree(menus)\n")
+        f.write(f"VERSION = '{version}'\n\n")
+        f.write("app = Flask(__name__, template_folder=\"../templates\", static_folder=\"../static\")\n\n")
+        f.write("tree = build_page_tree(menus)\n\n")
         f.write("def build_menu(current_title):\n")
         f.write("    return generate_menu(tree, current_title=current_title)\n\n")
 
@@ -118,36 +127,18 @@ def generate_server(tree):
         f.write("def health():\n")
         f.write("    return 'OK', 200\n\n")
 
-        # Home route
+        # Single index route only!
         f.write("@app.route('/')\n")
-        f.write("def home():\n")
-        f.write("    return render_template('home.html', title='Home', navigation=build_menu('Home'))\n\n")
+        f.write("def index():\n")
+        f.write("    return render_template('home.html', title='Home', navigation=build_menu('Home'), version=VERSION)\n\n")
 
-        def write_route(item):
-            slug = slugify(item["menu"])
-            route = "/" if item["parent"] == "Home" and slug == "home" else "/" + slug
-            if item["parent"] != "Home" and slug != "home":
-                route = "/" + slugify(item["parent"]) + "/" + slug
-
-            template_path = f"{slugify(item['parent'])}/{slug}.html" if item["parent"] != "Home" else f"{slug}.html"
-
-            f.write(f"@app.route('{route}')\n")
-            f.write(f"def {slug}():\n")
-            f.write(f"    return render_template('{template_path}', title=\"{item['menu']}\", navigation=build_menu(\"{item['menu']}\"))\n\n")
-
-            # Recursion
-            if item["menu"] in tree:
-                for child in tree[item["menu"]]:
-                    write_route(child)
-
-        if "Home" in tree:
-            for item in tree["Home"]:
-                write_route(item)
+        # No need to generate individual routes anymore! ✅
 
         f.write("\nif __name__ == '__main__':\n")
         f.write("    app.run(debug=True, host='0.0.0.0', port=8080)\n")
 
-    print(f"✅ Generated server.py with routes")
+    print(f"✅ Generated server.py with version {version}")
+
 
 
 def generate_generated_partials(menus, offerings):
@@ -193,7 +184,7 @@ def generate_generated_partials(menus, offerings):
 
 def main():
     print("🔧 Starting site generation...")
-
+    os.makedirs(SERVER_DIR, exist_ok=True)
     ensure_directories()
     validate_structure(menus)
 
@@ -201,7 +192,7 @@ def main():
 
     generate_home_template()
     generate_templates(tree)
-    generate_server(tree)
+    generate_server(tree, VERSION)
     generate_generated_partials(menus, offerings)
 
     print("🎉 Site generation complete!")

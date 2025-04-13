@@ -7,8 +7,8 @@ body {
     color: #333;
     line-height: 1.7;
     font-size: 16px;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
 }
 
@@ -21,23 +21,30 @@ header {
 
 .container {
     display: flex;
+    flex: 1;
+    overflow: hidden;
 }
 
+/* Side menu */
 .side-menu {
     background: #333;
     padding: 1em;
-    min-width: 200px;
-    max-width: 240px;
-    overflow-y: auto;
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .side-menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 .side-menu li {
+    width: 100%;
     margin-bottom: 0.5em;
 }
 
@@ -45,61 +52,62 @@ header {
     color: #fff;
     text-decoration: none;
     display: block;
-    padding: 0.5em;
+    padding: 0.8em;
     background: #555;
     border-radius: 4px;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
 }
 
-.side-menu a:hover,
+.side-menu a:hover {
+    background: #666;
+}
+
 .side-menu a.active {
     background: #007BFF;
-    color: #fff;
+    color: white;
     font-weight: bold;
 }
 
-main.content {
+/* Main content */
+.content {
     flex: 1;
     padding: 1.5em;
+    overflow-y: auto;
     background: #f4f4f9;
 }
 
+/* Footer */
 footer {
     background: #222;
     color: #fff;
     text-align: center;
     padding: 1em;
+    font-size: 0.9em;
 }
 
-/* Responsive: Mobile first */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .side-menu {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .side-menu ul {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .side-menu li {
-        flex: 1 1 50%;
-        margin-bottom: 0;
-    }
-
-    main.content {
-        padding: 1em;
-    }
+/* Offerings */
+.offering-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 1em 0;
+    overflow: hidden;
+    transition: transform 0.3s;
 }
 
-img {
-    max-width: 100%;
+.offering-card:hover {
+    transform: translateY(-5px);
+}
+
+.offering-card img {
+    width: 100%;
     height: auto;
     display: block;
-    margin: 1em 0;
+}
+
+.offering-card p {
+    padding: 1em;
+    margin: 0;
+    color: #333;
+    text-align: center;
 }

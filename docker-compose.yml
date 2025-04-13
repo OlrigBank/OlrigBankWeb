@@ -11,5 +11,5 @@ services:
       - .:/app
     environment:
       - FLASK_ENV=development
-      - FLASK_APP=server.py
+      - FLASK_APP=src/server.py
     command: /bin/sh -c "python generate_site.py && flask run --host=0.0.0.0 --port=8080 --reload"
