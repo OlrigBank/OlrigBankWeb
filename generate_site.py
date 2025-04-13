@@ -1,7 +1,7 @@
 import os
 from site_structure import menus, offerings
 
-VERSION = "0.0.21"
+VERSION = "0.0.22"
 TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 GENERATED_PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "generated")
@@ -46,24 +46,21 @@ def ensure_directories():
             f.write("# This file makes src a Python package.\n")
             print(f"✅ Created: {init_file}")
 
-def generate_menu(tree, parent="Home", current_title="", indent=4):
+def generate_menu(tree, parent=None, indent=0):
     if parent not in tree:
         return ""
 
-    menu = " " * indent + "<ul>\n"
+    menu_html = " " * indent + "<ul>\n"
     for item in tree[parent]:
         slug = slugify(item["menu"])
-        route = "/" if item["parent"] == "Home" and slug == "home" else "/" + slug
-        if item["parent"] != "Home" and slug != "home":
-            route = "/" + slugify(item["parent"]) + "/" + slug
+        menu_html += " " * (indent + 2) + f'<li><a href="#{slug}">{item["menu"]}</a>\n'
+        # Recursive call for child items
+        if item["menu"] in tree:
+            menu_html += generate_menu(tree, parent=item["menu"], indent=indent + 4)
+        menu_html += " " * (indent + 2) + "</li>\n"
+    menu_html += " " * indent + "</ul>\n"
+    return menu_html
 
-        active_class = "active" if item["menu"] == current_title else ""
-
-        menu += " " * (indent + 2) + f'<li><a href="{route}" class="{active_class}">{item["menu"]}</a>\n'
-        menu += generate_menu(tree, item["menu"], current_title=current_title, indent=indent + 4)
-        menu += " " * (indent + 2) + "</li>\n"
-    menu += " " * indent + "</ul>\n"
-    return menu
 
 
 def generate_home_template():
@@ -82,7 +79,7 @@ def generate_server(tree, version):
         f.write("app = Flask(__name__, template_folder=\"../templates\", static_folder=\"../static\")\n\n")
         f.write("tree = build_page_tree(menus)\n\n")
         f.write("def build_menu(current_title):\n")
-        f.write("    return generate_menu(tree, current_title=current_title)\n\n")
+        f.write("    return generate_menu(tree)\n\n")
 
         # Health check route
         f.write("@app.route('/health')\n")
@@ -106,40 +103,34 @@ def generate_server(tree, version):
 def generate_generated_partials(menus, offerings):
     os.makedirs(GENERATED_PARTIALS_DIR, exist_ok=True)
 
-    # ✅ Menu partial
+    # Build tree for nested structure
+    tree = build_page_tree(menus)
+
+    # Menu partial (nested)
     menu_file = os.path.join(GENERATED_PARTIALS_DIR, "menu_content.html")
     with open(menu_file, "w") as f:
-        f.write("<ul>\n")
-        for menu in menus:
-            slug = slugify(menu["menu"])
-            f.write(f'  <li><a href="#{slug}">{menu["menu"]}</a></li>\n')
-        f.write("</ul>\n")
+        f.write(generate_menu(tree))
     print(f"✅ Generated: {menu_file}")
 
-    # ✅ Offerings partial
+    # Offerings partial
     offerings_file = os.path.join(GENERATED_PARTIALS_DIR, "offerings_content.html")
     with open(offerings_file, "w") as f:
         for menu in menus:
             slug = slugify(menu["menu"])
-
-            # Category card (always present!)
             f.write(f'<div class="category-card" data-category="{slug}">\n')
             f.write(f'  <h2>{menu["menu"]}</h2>\n')
-            if "text" in menu:
-                f.write(f'  <p>{menu["text"]}</p>\n')
-            f.write('</div>\n\n')
+            f.write(f'  <p>{menu.get("description", "")}</p>\n')
+            f.write('</div>\n')
 
-            # Offerings for this category
             menu_offerings = [o for o in offerings if o["menu"] == menu["menu"]]
             for offering in menu_offerings:
-                image_path = f'images/{offering["image"]}'
+                image_path = f'images/{offering["image"]}.png'
                 f.write('<div class="offering-card">\n')
                 f.write(f'  <a href="{offering["link"]}" target="_blank">\n')
                 f.write(f'    <img src="{image_path}" alt="{offering["text"]}">\n')
                 f.write(f'    <p>{offering["text"]}</p>\n')
                 f.write('  </a>\n')
-                f.write('</div>\n\n')
-
+                f.write('</div>\n')
     print(f"✅ Generated: {offerings_file}")
 
 

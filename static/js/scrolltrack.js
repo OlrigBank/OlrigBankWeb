@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollContainer = document.querySelector('.content');
 
     function removeActiveClasses() {
-        menuLinks.forEach(link => link.classList.remove('active'));
+        menuLinks.forEach(link => link.classList.remove('active', 'parent-active'));
     }
 
     function updateActiveLink() {
@@ -28,6 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const activeLink = document.querySelector(`.side-menu a[href="#${activeCategory}"]`);
             if (activeLink) {
                 activeLink.classList.add('active');
+                // Highlight parent menu item
+                const parentLi = activeLink.closest('ul').parentElement.closest('li');
+                if (parentLi) {
+                    const parentLink = parentLi.querySelector('a');
+                    if (parentLink) {
+                        parentLink.classList.add('parent-active');
+                    }
+                }
             }
         }
     }

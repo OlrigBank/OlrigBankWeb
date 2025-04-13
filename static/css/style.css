@@ -188,3 +188,31 @@ img {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================
+   NESTED MENU STYLES
+   ============================ */
+
+.side-menu ul ul {
+    margin-left: 1em;
+    padding-left: 0.5em;
+    border-left: 1px solid #ddd;
+}
+
+.side-menu ul ul li a {
+    font-size: 0.9em;
+    color: #ddd;
+}
+
+/* Active link in the menu */
+.side-menu a.active {
+    background: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+/* Parent of active category */
+.side-menu a.parent-active {
+    color: #007BFF;
+    font-weight: bold;
+}
