@@ -1,25 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll(".side-menu a");
+    const menuLinks = document.querySelectorAll('.side-menu a');
+    const categoryCards = document.querySelectorAll('.category-card');
+    const scrollContainer = document.querySelector('.content');
 
-    function activateMenu() {
-        let currentSection = "";
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100; // Offset for fixed header
-            if (pageYOffset >= sectionTop) {
-                currentSection = section.getAttribute("id");
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove("active");
-            if (link.getAttribute("href").slice(1) === currentSection) {
-                link.classList.add("active");
-            }
-        });
+    function removeActiveClasses() {
+        menuLinks.forEach(link => link.classList.remove('active'));
     }
 
-    window.addEventListener("scroll", activateMenu);
-    activateMenu(); // Initial activation
+    function updateActiveLink() {
+        let closestCard = null;
+        let closestOffset = Infinity;
+
+        categoryCards.forEach(card => {
+            const cardRect = card.getBoundingClientRect();
+            const containerRect = scrollContainer.getBoundingClientRect();
+            const offset = Math.abs(cardRect.top - containerRect.top);
+
+            if (offset < closestOffset) {
+                closestOffset = offset;
+                closestCard = card;
+            }
+        });
+
+        if (closestCard) {
+            const activeCategory = closestCard.getAttribute('data-category');
+            removeActiveClasses();
+            const activeLink = document.querySelector(`.side-menu a[href="#${activeCategory}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+    }
+
+    scrollContainer.addEventListener('scroll', function () {
+        updateActiveLink();
+    });
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetCard = document.querySelector(`.category-card[data-category="${targetId}"]`);
+
+            if (targetCard) {
+                const containerTop = scrollContainer.getBoundingClientRect().top;
+                const targetTop = targetCard.getBoundingClientRect().top;
+                const scrollOffset = targetTop - containerTop + scrollContainer.scrollTop;
+
+                scrollContainer.scrollTo({
+                    top: scrollOffset,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Initial update
+    updateActiveLink();
 });
