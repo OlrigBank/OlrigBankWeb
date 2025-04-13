@@ -49,7 +49,7 @@ body {
     padding: 0.6em 0.8em;
     background: #444;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
 }
 
 .side-menu a:hover,
@@ -62,7 +62,7 @@ body {
 /* Main content */
 .content {
     flex-grow: 1;
-    padding: 1em;
+    padding: 1.5em;
     overflow-y: auto;
     background: #f9f9fb;
     display: flex;
@@ -74,14 +74,15 @@ body {
     background: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     overflow: hidden;
     text-align: center;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .offering-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .offering-card img {
@@ -128,6 +129,12 @@ footer {
     margin-top: auto;
     width: 100%;
     font-size: 0.9em;
+    border-top: 1px solid #444;
+    opacity: 0.9;
+}
+
+footer p {
+    margin: 0;
 }
 
 /* Images scaling properly */
@@ -157,6 +164,10 @@ img {
     .offering-card p {
         font-size: 0.95em;
     }
+
+    .content {
+        padding: 1em;
+    }
 }
 
 /* Smooth scroll */
@@ -169,3 +180,20 @@ a,
 .offering-card {
     transition: all 0.3s ease;
 }
+
+/* Optional: Dark mode prep (manual activation for now) */
+/*
+body.dark-mode {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .side-menu {
+    background: #1e1e1e;
+}
+
+body.dark-mode .offering-card {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+*/
