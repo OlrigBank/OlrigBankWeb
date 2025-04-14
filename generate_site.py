@@ -1,7 +1,7 @@
 import os
 from site_structure import menus, offerings
 
-VERSION = "0.0.23"
+VERSION = "0.0.24"
 TEMPLATE_DIR = "templates"
 PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "_partials")
 GENERATED_PARTIALS_DIR = os.path.join(TEMPLATE_DIR, "generated")
@@ -9,6 +9,8 @@ SERVER_DIR = "src"
 SERVER_FILE = os.path.join(SERVER_DIR, "server.py")
 HOME_TEMPLATE = os.path.join(TEMPLATE_DIR, "home.html")
 
+def url_for_static_image(image_name):
+    return f"/static/images/{image_name}.png"
 
 def slugify(text):
     return text.lower().replace(" ", "_").replace("'", "")
@@ -50,17 +52,17 @@ def generate_menu(tree, parent=None, indent=0):
     if parent not in tree:
         return ""
 
-    menu_html = " " * indent + "<ul>\n"
+    menu = " " * indent + "<ul>\n"
     for item in tree[parent]:
         slug = slugify(item["menu"])
-        menu_html += " " * (indent + 2) + f'<li><a href="#{slug}">{item["menu"]}</a>\n'
+        menu += " " * (indent + 2) + f'<li><a href="#{slug}">{item["menu"]}</a>\n'
         # Recursive call for child items
         if item["menu"] in tree:
-            menu_html += generate_menu(tree, parent=item["menu"], indent=indent + 4)
-        menu_html += " " * (indent + 2) + "</li>\n"
-    menu_html += " " * indent + "</ul>\n"
-    return menu_html
+            menu += generate_menu(tree, parent=item["menu"], indent=indent + 4)
+            menu += " " * (indent + 2) + "</li>\n"
 
+    menu += " " * indent + "</ul>\n"
+    return menu
 
 
 def generate_home_template():
@@ -100,38 +102,39 @@ def generate_server(tree, version):
 
 
 
-def generate_generated_partials(menus, offerings):
-    os.makedirs(GENERATED_PARTIALS_DIR, exist_ok=True)
-
-    # Build tree for nested structure
-    tree = build_page_tree(menus)
-
-    # Menu partial (nested)
-    menu_file = os.path.join(GENERATED_PARTIALS_DIR, "menu_content.html")
-    with open(menu_file, "w") as f:
-        f.write(generate_menu(tree))
-    print(f"✅ Generated: {menu_file}")
-
-    # Offerings partial
+def generate_offerings(tree, offerings):
     offerings_file = os.path.join(GENERATED_PARTIALS_DIR, "offerings_content.html")
     with open(offerings_file, "w") as f:
-        for menu in menus:
-            slug = slugify(menu["menu"])
+        def write_offerings(menu_item):
+            slug = slugify(menu_item["menu"])
             f.write(f'<div class="category-card" data-category="{slug}">\n')
-            f.write(f'  <h2>{menu["menu"]}</h2>\n')
-            f.write(f'  <p>{menu.get("description", "")}</p>\n')
+            f.write(f'  <h2>{menu_item["menu"]}</h2>\n')
+            f.write(f'  <p>{menu_item.get("text", "Explore our local recommendations!")}</p>\n')
             f.write('</div>\n')
 
-            menu_offerings = [o for o in offerings if o["menu"] == menu["menu"]]
+            menu_offerings = [o for o in offerings if o["menu"] == menu_item["menu"]]
             for offering in menu_offerings:
-                image_path = f'{{{{ url_for(\'static\', filename=\'images/{offering["image"]}.png\') }}}}'
+                image_path = url_for_static_image(offering["image"])
                 f.write('<div class="offering-card">\n')
                 f.write(f'  <a href="{offering["link"]}" target="_blank">\n')
                 f.write(f'    <img src="{image_path}" alt="{offering["text"]}">\n')
                 f.write(f'    <p>{offering["text"]}</p>\n')
                 f.write('  </a>\n')
                 f.write('</div>\n')
+
+            # Now write children
+            if menu_item["menu"] in tree:
+                for child in tree[menu_item["menu"]]:
+                    write_offerings(child)
+
+        # Start from the root menus
+        if "Home" in tree:
+            for menu_item in tree["Home"]:
+                write_offerings(menu_item)
+
     print(f"✅ Generated: {offerings_file}")
+
+
 
 
 
@@ -145,7 +148,7 @@ def main():
 
     generate_home_template()
     generate_server(tree, VERSION)
-    generate_generated_partials(menus, offerings)
+    generate_offerings(tree, offerings)
 
     print("🎉 Site generation complete!")
 

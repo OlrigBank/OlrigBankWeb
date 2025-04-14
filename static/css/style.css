@@ -1,218 +1,232 @@
-/* Reset and base */
-* {
+/* General resets and base styles */
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
 }
 
-html, body {
-    height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background: #f4f4f9;
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+a {
     color: #333;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-    overflow: hidden; /* Stop full page scroll */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Container layout */
+.container {
+    display: flex;
+    height: calc(100vh - 120px); /* header + footer space */
+    overflow: hidden;
 }
 
 /* Header */
 header {
-    background: #333;
+    background-color: #333;
     color: #fff;
-    padding: 1em;
     text-align: center;
-    position: fixed;
+    padding: 1rem;
+    position: sticky;
     top: 0;
-    width: 100%;
-    z-index: 1000;
+    z-index: 10;
+}
+
+header button#menu-toggle {
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    background-color: #fff;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+header button#menu-toggle:hover {
+    background-color: #ddd;
 }
 
 /* Footer */
 footer {
-    background: #222;
+    background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 0.8em;
-    position: fixed;
+    padding: 0.7rem;
+    position: sticky;
     bottom: 0;
-    width: 100%;
-    z-index: 1000;
-    font-size: 0.85em;
+    z-index: 10;
+    font-size: 0.9rem;
 }
 
-/* Container wraps side-menu and content */
-.container {
-    display: flex;
-    height: calc(100vh - 140px); /* header + footer height */
-    padding-top: 80px; /* header height */
-    padding-bottom: 60px; /* footer height */
-    overflow: hidden;
-}
-
-/* Side Menu */
+/* Side menu */
 .side-menu {
+    background-color: #222;
+    color: #fff;
+    padding: 1rem;
     width: 200px;
-    background: #333;
-    color: white;
-    padding: 1em;
     overflow-y: auto;
     flex-shrink: 0;
-    position: fixed;
-    top: 80px; /* below header */
-    bottom: 60px; /* above footer */
-    left: 0;
-    z-index: 900;
 }
 
 .side-menu ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .side-menu li {
-    margin-bottom: 0.5em;
+    margin: 0.5rem 0;
 }
 
 .side-menu a {
     color: #fff;
-    text-decoration: none;
     display: block;
-    padding: 0.6em;
-    background: #555;
+    padding: 0.4rem;
     border-radius: 4px;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
 }
 
-.side-menu a:hover,
+.side-menu a:hover {
+    background-color: #444;
+}
+
 .side-menu a.active {
-    background: #007BFF;
+    background-color: #007bff;
     color: white;
-    font-weight: bold;
 }
 
-/* Main Content Area */
+/* Nested menu */
+.side-menu ul ul {
+    margin-left: 1rem;
+}
+
+/* Main content */
 .content {
-    margin-left: 200px; /* side menu width */
     flex-grow: 1;
     overflow-y: auto;
-    padding: 1em;
-    padding-bottom: 3em; /* space for footer */
+    padding: 1rem;
 }
 
-/* Cards */
+/* Category cards */
 .category-card {
-    background: #eee;
-    margin-bottom: 1em;
-    padding: 1em;
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #007bff;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    position: relative;
-    scroll-margin-top: 100px; /* To account for header and spacing when linked */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.category-card h2 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+/* Offering cards */
 .offering-card {
-    background: white;
+    background-color: #fff;
     border-radius: 8px;
-    padding: 0.5em;
-    margin-bottom: 1em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
 }
 
 .offering-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
 }
 
 .offering-card img {
     width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+.offering-card p {
+    padding: 0.75rem;
+    margin: 0;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .side-menu {
+        width: 100%;
+        order: -1;
+    }
+
+    .content {
+        padding: 0.5rem;
+    }
+
+    header button#menu-toggle {
+        display: block;
+    }
+}
+
+/* Offering cards clean up */
+.offering-card {
+    background: #fff;
     border-radius: 8px;
-    margin-bottom: 0.5em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    transition: transform 0.3s;
+}
+
+.offering-card:hover {
+    transform: translateY(-3px);
+}
+
+.offering-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
 }
 
 .offering-card p {
     margin: 0;
+    font-size: 0.95rem;
     text-align: center;
-    font-size: 0.95em;
 }
 
-/* Responsive mobile */
-@media (max-width: 768px) {
-    .side-menu {
-        width: 60px;
-        padding: 0.5em;
-    }
-
-    .side-menu a {
-        font-size: 0.8em;
-        padding: 0.4em;
-    }
-
-    .content {
-        margin-left: 60px;
-        padding: 0.5em;
-    }
-
-    .offering-card p {
-        font-size: 0.9em;
-    }
+/* Category card improvement */
+.category-card {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #e6e6e6;
+    border-radius: 8px;
+    text-align: center;
 }
 
-/* Smooth animation for active link highlight */
-.side-menu a {
-    transition: background 0.3s, color 0.3s;
+/* Menu link highlight (sync) */
+.side-menu .active {
+    background: #007bff;
+    color: #fff;
+    border-radius: 4px;
 }
 
-/* Scroll tracking highlight */
-.side-menu a.active {
-    background: #007BFF;
-    color: white;
-    font-weight: bold;
-}
-
-/* Image responsiveness */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Utility: subtle fade in for cards */
-.category-card,
-.offering-card {
-    animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================
-   NESTED MENU STYLES
-   ============================ */
-
-.side-menu ul ul {
-    margin-left: 1em;
-    padding-left: 0.5em;
-    border-left: 1px solid #ddd;
-}
-
-.side-menu ul ul li a {
-    font-size: 0.9em;
-    color: #ddd;
-}
-
-/* Active link in the menu */
-.side-menu a.active {
-    background: #007BFF;
-    color: white;
-    font-weight: bold;
-}
-
-/* Parent of active category */
-.side-menu a.parent-active {
-    color: #007BFF;
-    font-weight: bold;
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
 }
