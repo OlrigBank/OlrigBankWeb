@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Olrig Bank | {% block title %}Page Title{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
 
     <header>
         <h1>Olrig Bank</h1>
-        <p>Your guide to Kendal and beyond</p>
-        <button id="menu-toggle">☰ Menu</button>
     </header>
 
     <div class="container">
-        <aside class="side-menu" id="side-menu">
+        <!-- Left Side Menu (Fixed) -->
+        <aside class="side-menu">
             {% include "_partials/_menu.html" %}
         </aside>
 
+        <!-- Main Scrollable Content -->
         <main class="content">
             {% include "_partials/_offerings.html" %}
         </main>
@@ -27,9 +27,10 @@
     <footer>
         <p>&copy; 2025 Olrig Bank. All rights reserved.</p>
         <p>Version {{ version }}</p>
-        <p><a href="/health">Health Check</a></p>
     </footer>
 
-    <script src="/static/js/scrolltrack.js"></script>
+    <!-- Scroll Tracking -->
+    <script src="{{ url_for('static', filename='js/scrolltrack.js') }}"></script>
+
 </body>
 </html>
