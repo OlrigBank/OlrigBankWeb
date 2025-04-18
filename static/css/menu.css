@@ -13,12 +13,7 @@
 }
 
 /* Top‑level list */
-/* Add a little inset for any nested list in the side‐menu */
-.side-menu ul ul {
-  margin-left: 1em;       /* shift nested <ul> over by 1em */
-  /* optional: restore bullets on deeper levels */
-  list-style-type: disc;
-}
+
 
 /* Individual items */
 .side-menu li {
@@ -40,4 +35,22 @@
 .side-menu a.active {
     background: #007BFF;
     color: white;
+}
+
+/* hide all sub‑menus by default */
+.side-menu ul ul {
+    margin-left: 1em;       /* shift nested <ul> over by 1em */
+  /* optional: restore bullets on deeper levels */
+  list-style-type: disc;
+}
+
+/* style the active link itself */
+.side-menu a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* style the active link’s parent item */
+.side-menu li.active-parent > a {
+  background: #eee;
 }
