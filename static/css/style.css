@@ -1,4 +1,5 @@
-/* Base Styles */
+/* style.css */
+/* Base reset & layout */
 body {
     margin: 0;
     padding: 0;
@@ -14,97 +15,23 @@ body {
 
 header {
     background: #444;
-    color: #fff;
+    color: white;
     padding: 1em;
     text-align: center;
-    flex-shrink: 0;
 }
 
+/* Main content area (beside .side-menu) */
 .container {
     flex: 1;
     display: flex;
-    height: calc(100vh - 140px); /* Adjust for header + footer */
+    height: calc(100vh - 140px); /* adjust for header + footer */
 }
 
-.side-menu {
-    background: #333;
-    color: #fff;
-    width: 200px;
-    padding: 1em;
-    overflow-y: auto;
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
-    height: 100%;
-}
-
-/* Add a little inset for any nested list in the side‐menu */
-.side-menu ul ul {
-  margin-left: 1em;       /* shift nested <ul> over by 1em */
-  /* optional: restore bullets on deeper levels */
-  list-style-type: disc;
-}
-
-.side-menu li {
-    margin-bottom: 0.5em;
-}
-
-.side-menu a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-    display: block;
-    border-radius: 4px;
-    transition: background 0.3s, color 0.3s;
-}
-
-.side-menu a:hover,
-.side-menu a.active {
-    background: #007BFF;
-    color: white;
-}
-
-/* Main Scrollable Content */
 .content {
     padding: 1em;
     overflow-y: auto;
     flex-grow: 1;
     scroll-behavior: smooth;
-}
-
-.category-card {
-    background: #eee;
-    padding: 1em;
-    margin-bottom: 1em;
-    border-left: 4px solid #007BFF;
-}
-
-.category-card h2 {
-    margin: 0 0 0.5em;
-}
-
-.offering-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 1em;
-    overflow: hidden;
-    transition: box-shadow 0.3s;
-}
-
-.offering-card:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.offering-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.offering-card p {
-    margin: 0;
-    padding: 0.5em;
 }
 
 /* Footer */
@@ -113,10 +40,9 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1em;
-    flex-shrink: 0;
 }
 
-/* Responsive */
+/* Responsive tweaks */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;

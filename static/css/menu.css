@@ -1,0 +1,43 @@
+/* menu.css */
+/* Side‑menu container */
+.side-menu {
+    background: #333;
+    color: #fff;
+    width: 200px;
+    padding: 1em;
+    overflow-y: auto;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100%;
+}
+
+/* Top‑level list */
+/* Add a little inset for any nested list in the side‐menu */
+.side-menu ul ul {
+  margin-left: 1em;       /* shift nested <ul> over by 1em */
+  /* optional: restore bullets on deeper levels */
+  list-style-type: disc;
+}
+
+/* Individual items */
+.side-menu li {
+    margin-bottom: 0.5em;
+}
+
+/* Links */
+.side-menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5em;
+    display: block;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Hover & active states */
+.side-menu a:hover,
+.side-menu a.active {
+    background: #007BFF;
+    color: white;
+}
