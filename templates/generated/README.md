@@ -1,1 +1,0 @@
-# Templates contain mostly generated files. Non generated files are this folder

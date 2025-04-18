@@ -38,10 +38,11 @@ header {
     height: 100%;
 }
 
-.side-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* Add a little inset for any nested list in the side‐menu */
+.side-menu ul ul {
+  margin-left: 1em;       /* shift nested <ul> over by 1em */
+  /* optional: restore bullets on deeper levels */
+  list-style-type: disc;
 }
 
 .side-menu li {

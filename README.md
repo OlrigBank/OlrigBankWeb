@@ -154,3 +154,8 @@ Then run:
 ./run.sh
 ```
 
+Clean up from generate_site.py
+```bash
+rm -r src
+rm -r templates/generated
+```
