@@ -1,3 +1,4 @@
+// static/js/toggle-menu.js
 
 document.addEventListener("DOMContentLoaded", function () {
   const toggleBtn = document.getElementById("toggle-menu");
@@ -5,14 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (toggleBtn && sideMenu) {
     toggleBtn.addEventListener("click", () => {
-      sideMenu.classList.toggle("hidden");
+      // Toggle the 'show' class to slide the menu in/out on mobile
+      sideMenu.classList.toggle("show");
     });
   }
 
   // Optional: Expand/collapse second-level menu on click
   document.querySelectorAll(".side-menu li").forEach((li) => {
     li.addEventListener("click", function (e) {
-      // Prevent toggling when clicking a link
+      // Only toggle when clicking the <li> itself, not direct links
       if (e.target.tagName !== "A") return;
       e.currentTarget.classList.toggle("open");
     });
