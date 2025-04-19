@@ -1,25 +1,28 @@
-/* menu.css */
+
 /* Side‑menu container */
 .side-menu {
-    position: fixed;
-    top: 60px; /* equal to header height */
-    left: 0;
-    width: 200px;
-    height: calc(100vh - 60px);
     background: #333;
-    color: white;
+    color: #fff;
+    width: 200px;
+    min-width: 150px;
+    padding: 1em;
+    position: fixed;
+    top: 60px; /* below fixed header */
+    left: 0;
+    height: calc(100vh - 60px);
     overflow-y: auto;
     z-index: 1000;
-    padding: 1em;
+    transition: transform 0.3s ease-in-out;
 }
 
+.side-menu.hidden {
+    transform: translateX(-100%);
+}
 
-/* Top‑level list */
 .side-menu li {
     margin-bottom: 0.5em;
 }
 
-/* Links */
 .side-menu a {
     color: #fff;
     text-decoration: none;
@@ -29,40 +32,28 @@
     transition: background 0.3s, color 0.3s;
 }
 
-/* Hover & active states */
 .side-menu a:hover,
 .side-menu a.active {
     background: #007BFF;
     color: white;
 }
 
-/* hide all sub‑menus by default */
 .side-menu ul ul {
-    margin-left: 1em;
-    list-style-type: disc;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    list-style-type: none;
+    display: none;
 }
 
-/* style the active link itself */
+.side-menu li.open > ul {
+    display: block;
+}
+
 .side-menu a.active {
     font-weight: bold;
     text-decoration: underline;
 }
 
-/* style the active link’s parent item */
 .side-menu li.active-parent > a {
     font-weight: bold;
-}
-
-/* content area should not overlap the fixed menu */
-.content {
-    margin-left: 200px;
-    padding: 1em;
-    padding-top: 60px; /* same as header height */
-}
-
-
-/* optional flex layout if needed */
-.container {
-    display: flex;
-    align-items: flex-start;
 }
