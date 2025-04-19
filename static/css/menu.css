@@ -1,21 +1,20 @@
 /* menu.css */
 /* Side‑menu container */
 .side-menu {
-    background: #333;
-    color: #fff;
+    position: fixed;
+    top: 60px; /* equal to header height */
+    left: 0;
     width: 200px;
-    padding: 1em;
+    height: calc(100vh - 60px);
+    background: #333;
+    color: white;
     overflow-y: auto;
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
-    height: 100%;
+    z-index: 1000;
+    padding: 1em;
 }
 
+
 /* Top‑level list */
-
-
-/* Individual items */
 .side-menu li {
     margin-bottom: 0.5em;
 }
@@ -39,18 +38,31 @@
 
 /* hide all sub‑menus by default */
 .side-menu ul ul {
-    margin-left: 1em;       /* shift nested <ul> over by 1em */
-  /* optional: restore bullets on deeper levels */
-  list-style-type: disc;
+    margin-left: 1em;
+    list-style-type: disc;
 }
 
 /* style the active link itself */
 .side-menu a.active {
-  font-weight: bold;
-  text-decoration: underline;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 /* style the active link’s parent item */
 .side-menu li.active-parent > a {
-  background: #eee;
+    font-weight: bold;
+}
+
+/* content area should not overlap the fixed menu */
+.content {
+    margin-left: 200px;
+    padding: 1em;
+    padding-top: 60px; /* same as header height */
+}
+
+
+/* optional flex layout if needed */
+.container {
+    display: flex;
+    align-items: flex-start;
 }
