@@ -63,3 +63,21 @@
 .side-menu li.active-parent > a {
     font-weight: bold;
 }
+
+/* 1) Hide the Home link itself */
+.side-menu > ul > li > a[href="#home"] {
+  display: none;
+}
+
+/* 2) Always show Home’s nested <ul> */
+.side-menu > ul > li > ul {
+  display: block !important;   /* override the default “display: none” */
+  list-style: none;            /* remove bullets if you’ve not already */
+  margin: 0;                   /* reset indent */
+  padding: 0;
+}
+
+/* 3) Tweak spacing of those now–top‑level items */
+.side-menu > ul > li > ul > li {
+  margin-bottom: 0.5em;
+}
