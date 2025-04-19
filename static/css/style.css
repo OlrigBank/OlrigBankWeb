@@ -25,14 +25,25 @@ header {
 }
 
 @media (max-width: 700px) {
-  /* 1) Give your content a smooth transition */
-  .content {
-    transition: margin-left 0.3s ease-in-out;
-    margin-left: 0;        /* default state */
-  }
+    /* Hide the menu off‑screen by default */
+    .side-menu {
+        transform: translateX(-100%);
+    }
 
-  /* 2) Whenever the sidebar has .show (i.e. it’s visible), push the content right */
-  .side-menu.show + .content {
-    margin-left: 200px;     /* match your sidebar width */
-  }
+    /* Bring it back when JS adds .show */
+    .side-menu.show {
+        transform: translateX(0);
+    }
+
+    /* (Your existing content push) */
+    .content {
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 0;
+    }
+
+    .side-menu.show + .content {
+        margin-left: 200px;
+    }
 }
+
+

@@ -38,6 +38,12 @@
     color: white;
 }
 
+.side-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .side-menu ul ul {
     margin-left: 0.5em;
     padding-left: 0.5em;
