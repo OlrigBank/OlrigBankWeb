@@ -3,29 +3,28 @@
 /* 1) Grid wrapper */
 .offerings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 1em;
 }
 
-/* 2) Category headers span entire row */
+/* 2) Category headers span full row */
 .offerings-grid .category-card {
-  grid-column: 1 / -1;            /* span from first to last column */
+  grid-column: 1 / -1;
   background: #eee;
   padding: 1em;
   margin: 2rem 0 1rem;
   border-left: 4px solid #007BFF;
 }
-
 .offerings-grid .category-card h2 {
   margin: 0;
   font-size: 1.5rem;
   color: #333;
 }
 
-/* 3) Individual offering cards */
+/* 3) Card container */
 .offerings-grid .offering-card {
   background: #fff;
   border-radius: 8px;
@@ -36,19 +35,22 @@
   flex-direction: column;
 }
 
+/* 4) Force all images to the same square frame */
 .offerings-grid .offering-card img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 2 / 1;      /* modern browsers enforce square */
+  object-fit: cover;        /* crop & fill without distortion */
   display: block;
 }
 
+/* 5) Description under the image */
 .offerings-grid .offering-card p {
   margin: 0;
   padding: 1rem;
-  flex: 1;
+  flex: 1;                  /* push future buttons/links down */
 }
 
-/* 4) Hover/focus state */
+/* 6) Hover lift effect */
 .offerings-grid .offering-card:hover,
 .offerings-grid .offering-card:focus-within {
   transform: translateY(-4px);
