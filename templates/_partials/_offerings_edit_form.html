@@ -1,0 +1,18 @@
+    <div id="add-offering-form" class="hidden fixed inset-0 bg-white p-6 z-50 shadow-lg overflow-auto">
+        <form method="POST" action="/admin/add" enctype="multipart/form-data" class="space-y-4">
+            <h2 class="text-xl font-semibold">Add New Offering</h2>
+            <input name="title" placeholder="Title" class="w-full border p-2 rounded" required/>
+            <select name="category" class="w-full border p-2 rounded" required>
+                <!-- Options injected server-side -->
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="file" name="image" class="w-full"/>
+            <textarea name="description" placeholder="Description" class="w-full border p-2 rounded"></textarea>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+            <button type="button" onclick="document.getElementById('add-offering-form').classList.add('hidden')"
+                    class="ml-2 text-gray-600">Cancel
+            </button>
+        </form>
+    </div>
