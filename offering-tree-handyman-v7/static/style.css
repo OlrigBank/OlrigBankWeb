@@ -1,0 +1,69 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background: #f5f5f5;
+}
+h1 {
+    text-align: center;
+}
+#toolbar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#handyman {
+    font-size: 2.5em;
+    cursor: grab;
+    display: inline-block;
+}
+.card {
+    background-color: #d0eaff;
+    background: #eee;
+    margin: 10px auto;
+    max-width: 600px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+}
+.editor-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffffe0;
+    padding: 10px;
+    z-index: 10;
+    border-radius: 8px;
+}
+.editor-overlay .buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.hidden {
+    display: none;
+}
+
+/* Version override for v3 styling */
+.menu-card {
+    background-color: lightcoral;
+}
+.offering-card {
+    background-color: lightblue;
+}
+
+/* Stylesheet version updated for v4 */
+
+/* Stylesheet updated for v6, buttons removed */
+
+/* v7: Home icon styling */
+.home-icon {
+    font-size: 24px;
+    margin-left: 8px;
+    opacity: 0.7;
+    cursor: default;
+}
+.home-icon:hover {
+    opacity: 1;
+}
