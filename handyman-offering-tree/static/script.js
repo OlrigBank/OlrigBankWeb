@@ -1,23 +1,28 @@
 let handyman = null;
 let currentOverlay = null;
+let lastEditedCard = null;
+let unsavedCards = [];
+
+// Data maps for rendering
+let menuMap = {};
+let childrenMap = {};
+let offeringMap = {};
 
 window.onload = async function() {
-    // Load initial data
     const res = await fetch("/load");
     const data = await res.json();
 
-    // Initialize handyman draggable behavior
+    // Set up handyman drag behavior
     handyman = document.getElementById("handyman");
     handyman.draggable = true;
     handyman.addEventListener("dragstart", e => {
-        // Required for Chrome drag start
         if (e.dataTransfer) e.dataTransfer.setData("text/plain", "");
         handyman.dataset.dragging = "true";
     });
     handyman.addEventListener("dragend", () => delete handyman.dataset.dragging);
 
-    // Toolbar and home icon setup
     const toolbar = document.getElementById("toolbar");
+    // Add home icon
     const homeIcon = document.createElement("span");
     homeIcon.id = "home-icon";
     homeIcon.className = "home-icon";
@@ -25,118 +30,145 @@ window.onload = async function() {
     homeIcon.draggable = false;
     toolbar.appendChild(homeIcon);
 
-    // Toolbar drop: save & close editor, return handyman
-    toolbar.addEventListener("dragover", e => e.preventDefault());
-    toolbar.addEventListener("drop", e => {
-        e.preventDefault();
-        if (currentOverlay) {
-            const card = currentOverlay.parentNode;
-            const inputs = currentOverlay.querySelectorAll("input");
-            inputs.forEach(input => {
-                const key = input.name;
-                card.dataset[key] = input.value;
-            });
-            // Update visible text
-            if (card.dataset.type === 'menu' && card.dataset.menu && card.dataset.text) {
-                card.textContent = `${card.dataset.menu}: ${card.dataset.text}`;
-            } else if (card.dataset.text) {
-                card.textContent = card.dataset.text;
-            }
-            currentOverlay.remove();
-            currentOverlay = null;
-        }
-        toolbar.appendChild(handyman);
-    });
-
-    // Home icon drop: save & keep editor open, return handyman
-    homeIcon.addEventListener("dragover", e => e.preventDefault());
-    homeIcon.addEventListener("drop", e => {
-        e.preventDefault();
-        toolbar.insertBefore(handyman, homeIcon);
-        if (currentOverlay) {
-            const card = currentOverlay.parentNode;
-            const inputs = currentOverlay.querySelectorAll("input");
-            inputs.forEach(input => {
-                const key = input.name;
-                card.dataset[key] = input.value;
-            });
-            // Update visible text
-            if (card.dataset.type === 'menu' && card.dataset.menu && card.dataset.text) {
-                card.textContent = `${card.dataset.menu}: ${card.dataset.text}`;
-            } else if (card.dataset.text) {
-                card.textContent = card.dataset.text;
-            }
-            // Editor remains open
-        }
-    });
-
-    // Build and render tree
-    const container = document.getElementById("tree-container");
-    const menuMap = {}, childrenMap = {}, offeringMap = {};
-
+    // Build data maps
     data.menus.forEach(menu => {
         menuMap[menu.menu] = menu;
         const parent = menu.parent || null;
         (childrenMap[parent] = childrenMap[parent] || []).push(menu);
     });
-    data.offerings.forEach(o => {
-        (offeringMap[o.menu] = offeringMap[o.menu] || []).push(o);
+    data.offerings.forEach(off => {
+        (offeringMap[off.menu] = offeringMap[off.menu] || []).push(off);
     });
 
-    function renderMenu(menu, level = 0) {
-        const wrapper = document.createElement("div");
-        wrapper.style.marginLeft = `${level * 20}px`;
+    // Render tree
+    const container = document.getElementById("tree-container");
+    (childrenMap[null] || []).forEach(menu => container.appendChild(renderMenu(menu)));
 
-        const menuCard = document.createElement("div");
-        menuCard.className = "card menu-card";
-        menuCard.textContent = menu.menu + ": " + (menu.text || "");
-        menuCard.dataset.type = "menu";
-        menuCard.addEventListener("dragover", e => e.preventDefault());
-        menuCard.addEventListener("drop", () => showOverlay(menuCard, menu));
-        wrapper.appendChild(menuCard);
+    // Toolbar drop: save and close overlay, show buttons
+    toolbar.addEventListener("dragover", e => e.preventDefault());
+    toolbar.addEventListener("drop", e => {
+        e.preventDefault();
+        if (currentOverlay && lastEditedCard) {
+            saveCurrentOverlay();
+            removeOverlay();
+            showSaveRevertButtons(toolbar);
+        }
+        toolbar.appendChild(handyman);
+    });
 
-        (offeringMap[menu.menu] || []).forEach(off => {
-            const offerCard = document.createElement("div");
-            offerCard.className = "card offering-card";
-            offerCard.textContent = off.text;
-            offerCard.dataset.type = "offering";
-            offerCard.addEventListener("dragover", e => e.preventDefault());
-            offerCard.addEventListener("drop", () => showOverlay(offerCard, off));
-            wrapper.appendChild(offerCard);
-        });
-
-        (childrenMap[menu.menu] || []).forEach(child => {
-            wrapper.appendChild(renderMenu(child, level + 1));
-        });
-
-        return wrapper;
-    }
-
-    (childrenMap[null] || []).forEach(m => container.appendChild(renderMenu(m)));
+    // Home icon drop: save overlay but keep open
+    homeIcon.addEventListener("dragover", e => e.preventDefault());
+    homeIcon.addEventListener("drop", e => {
+        e.preventDefault();
+        toolbar.insertBefore(handyman, homeIcon);
+        if (currentOverlay && lastEditedCard) saveCurrentOverlay();
+    });
 };
 
+// Create a card element with dataset and handlers
+function createCard(type, data) {
+    const card = document.createElement("div");
+    card.className = `card ${type}-card`;
+    card.dataset.type = type;
+    // Store initial data on dataset
+    Object.entries(data).forEach(([k,v]) => { if(k!=='type') card.dataset[k] = v || ''; });
+    updateCardDisplay(card);
+    card.addEventListener("dragover", e => e.preventDefault());
+    card.addEventListener("drop", () => showOverlay(card, data));
+    return card;
+}
+
+// Recursive render
+function renderMenu(menu, level=0) {
+    const wrapper = document.createElement("div");
+    wrapper.style.marginLeft = `${level*20}px`;
+    // Menu card
+    wrapper.appendChild(createCard('menu', menu));
+    // Offerings
+    (offeringMap[menu.menu]||[]).forEach(off => wrapper.appendChild(createCard('offering', off)));
+    // Children
+    (childrenMap[menu.menu]||[]).forEach(child => wrapper.appendChild(renderMenu(child, level+1)));
+    return wrapper;
+}
+
+// Show editor overlay
 function showOverlay(card, data) {
-    if (currentOverlay) currentOverlay.remove();
+    // Save any open overlay
+    if (currentOverlay && lastEditedCard) {
+        saveCurrentOverlay();
+        removeOverlay();
+    }
+    lastEditedCard = card;
+    // Keep original data on card for revert if first change
+    if (!card._originalData) card._originalData = { ...card.dataset };
 
     const overlay = document.createElement("div");
     overlay.className = "editor-overlay";
-
-    Object.keys(data).forEach(key => {
-        if (key === "type") return;
-        // Prefill from dataset if present, otherwise use data
-        const value = card.dataset[key] || data[key] || "";
-        const field = document.createElement("div");
-        field.innerHTML = `<label>${key}: <input name="${key}" value="${value}"></label>`;
-        overlay.appendChild(field);
+    Object.entries(data).forEach(([k,v]) => {
+        if(k==='type') return;
+        const val = card.dataset[k]||v||'';
+        const div = document.createElement("div");
+        div.innerHTML = `<label>${k}: <input name="${k}" value="${val}"></label>`;
+        overlay.appendChild(div);
     });
-
-    overlay.addEventListener("dragover", e => e.preventDefault());
-    overlay.addEventListener("drop", e => {
-        e.preventDefault();
-        overlay.appendChild(handyman);
-    });
+    overlay.addEventListener("dragover", e=>e.preventDefault());
+    overlay.addEventListener("drop", e=>{e.preventDefault(); overlay.appendChild(handyman)});
 
     overlay.appendChild(handyman);
     currentOverlay = overlay;
     card.appendChild(overlay);
+}
+
+// Save overlay inputs into dataset and track card
+function saveCurrentOverlay() {
+    currentOverlay.querySelectorAll("input").forEach(input => {
+        lastEditedCard.dataset[input.name] = input.value;
+    });
+    updateCardDisplay(lastEditedCard);
+    // Track unsaved changed cards
+    if (!unsavedCards.includes(lastEditedCard)) unsavedCards.push(lastEditedCard);
+}
+
+// Remove overlay
+function removeOverlay() {
+    currentOverlay.remove();
+    currentOverlay = null;
+}
+
+// Update card display
+function updateCardDisplay(card) {
+    if(card.dataset.type==='menu') card.textContent = `${card.dataset.menu}: ${card.dataset.text}`;
+    else card.textContent = card.dataset.text;
+}
+
+// Show Save and Revert buttons for all changed cards
+function showSaveRevertButtons(toolbar) {
+    if (toolbar.querySelector('#save-btn')) return;
+    const saveBtn = document.createElement('button');
+    saveBtn.id='save-btn'; saveBtn.textContent='Save All';
+    saveBtn.onclick = () => {
+        // TODO: Persist unsaved changes
+        console.log('Saved all:', unsavedCards.map(c => c.dataset));
+        cleanupButtons(toolbar);
+    };
+    const revertBtn = document.createElement('button');
+    revertBtn.id='revert-btn'; revertBtn.textContent='Revert All';
+    revertBtn.onclick = () => {
+        // Revert each card to its original data
+        unsavedCards.forEach(card => {
+            const orig = card._originalData || {};
+            Object.entries(orig).forEach(([k,v]) => card.dataset[k] = v);
+            updateCardDisplay(card);
+        });
+        cleanupButtons(toolbar);
+    };
+    toolbar.append(saveBtn, revertBtn);
+}
+
+// Remove Save/Revert buttons and reset state
+function cleanupButtons(toolbar) {
+    ['#save-btn','#revert-btn'].forEach(sel=>{
+        const b=toolbar.querySelector(sel); if(b) b.remove();
+    });
+    unsavedCards = [];
 }
