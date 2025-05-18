@@ -32,7 +32,7 @@ text = "A wide variety of local activities"
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
 menu = "Whats On"
-text = "Use the Visit Kendal site to find out what's on during your stay"
+text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
 image = "kendalpeoplescafe"
@@ -57,3 +57,4 @@ image = "kcw"
 link = "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"
 menu = "Activities"
 text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
+

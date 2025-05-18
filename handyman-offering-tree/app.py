@@ -29,5 +29,42 @@ def add_header(response):
     response.headers["Cache-Control"] = "no-store"
     return response
 
+@app.route("/save", methods=["POST"])
+def save_changes():
+    # 1) Read incoming JSON payload
+    changes = request.json.get("changes", [])
+
+    # 2) Load existing TOML data
+    data = load_toml(DATA_FILE)
+
+    # 3) Apply each change
+    for change in changes:
+        typ       = change.get("type")
+        key_menu  = change.get("menu")
+        new_text  = change.get("text", "")
+
+        if typ == "menu":
+            # Find the menu entry by its 'menu' key
+            for m in data.get("menus", []):
+                if m.get("menu") == key_menu:
+                    m["text"] = new_text
+        elif typ == "offering":
+            # Find the first offering under that menu
+            for o in data.get("offerings", []):
+                if o.get("menu") == key_menu:
+                    o["text"] = new_text
+                    break
+
+    # 4) Write back to site_structure.toml
+    try:
+        import toml as toml_write
+        with open(DATA_FILE, "w") as f:
+            toml_write.dump(data, f)
+    except ImportError:
+        return jsonify({"error": "toml library not available for writing"}), 500
+
+    # 5) Return success
+    return jsonify({"status": "ok"})
+
 if __name__ == "__main__":
     app.run(debug=True)

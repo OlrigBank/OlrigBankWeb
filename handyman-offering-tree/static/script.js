@@ -146,15 +146,26 @@ function showSaveRevertButtons(toolbar) {
     if (toolbar.querySelector('#save-btn')) return;
     const saveBtn = document.createElement('button');
     saveBtn.id='save-btn'; saveBtn.textContent='Save All';
-    saveBtn.onclick = () => {
-        // TODO: Persist unsaved changes
-        console.log('Saved all:', unsavedCards.map(c => c.dataset));
+    saveBtn.onclick = async () => {
+        const payload = unsavedCards.map(card => card.dataset);
+        try {
+            const res = await fetch('/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ changes: payload })
+            });
+            if (!res.ok) throw new Error(await res.text());
+            console.log('Saved all:', payload);
+        } catch (err) {
+            console.error('Save failed:', err);
+            alert('Failed to save changes: ' + err.message);
+            return;
+        }
         cleanupButtons(toolbar);
     };
     const revertBtn = document.createElement('button');
     revertBtn.id='revert-btn'; revertBtn.textContent='Revert All';
     revertBtn.onclick = () => {
-        // Revert each card to its original data
         unsavedCards.forEach(card => {
             const orig = card._originalData || {};
             Object.entries(orig).forEach(([k,v]) => card.dataset[k] = v);
