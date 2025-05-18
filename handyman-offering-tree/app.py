@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 
 try:
@@ -65,6 +65,15 @@ def save_changes():
 
     # 5) Return success
     return jsonify({"status": "ok"})
+
+@app.route("/schemas/<path:filename>")
+def serve_schema(filename):
+    # serves files out of the `schemas/` folder next to app.py
+    return send_from_directory(
+        os.path.join(app.root_path, "schemas"),
+        filename,
+        mimetype="application/json"
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

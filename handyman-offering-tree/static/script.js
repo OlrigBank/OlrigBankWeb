@@ -3,48 +3,58 @@ let currentOverlay = null;
 let lastEditedCard = null;
 let unsavedCards = [];
 
-// Data maps for rendering
+// Data maps
 let menuMap = {};
 let childrenMap = {};
 let offeringMap = {};
 
-window.onload = async function() {
-  const res = await fetch("/load");
-  const data = await res.json();
+// Hold the schemas
+let menuSchema = null;
+let offeringSchema = null;
 
-  // Set up handyman drag behavior
+window.onload = async function() {
+  // 1) Fetch data + schemas in parallel
+  const [data, ms, os] = await Promise.all([
+    fetch("/load").then(r => r.json()),
+    fetch("/schemas/menu.schema.json").then(r => r.json()),
+    fetch("/schemas/offering.schema.json").then(r => r.json())
+  ]);
+  menuSchema     = ms;
+  offeringSchema = os;
+
+  // 2) Set up the handyman drag icon
   handyman = document.getElementById("handyman");
   handyman.draggable = true;
   handyman.addEventListener("dragstart", e => {
-    if (e.dataTransfer) e.dataTransfer.setData("text/plain", "");
+    e.dataTransfer?.setData("text/plain", "");  // Chrome requires this
     handyman.dataset.dragging = "true";
   });
   handyman.addEventListener("dragend", () => delete handyman.dataset.dragging);
 
-  // Toolbar & Home icon
+  // 3) Toolbar + home icon
   const toolbar = document.getElementById("toolbar");
   const homeIcon = document.createElement("span");
-  homeIcon.id = "home-icon";
+  homeIcon.id        = "home-icon";
   homeIcon.className = "home-icon";
   homeIcon.textContent = "🏠";
-  homeIcon.draggable = false;
+  homeIcon.draggable   = false;
   toolbar.appendChild(homeIcon);
 
-  // Build maps
-  data.menus.forEach(menu => {
-    menuMap[menu.menu] = menu;
-    const parent = menu.parent || null;
-    (childrenMap[parent] = childrenMap[parent] || []).push(menu);
+  // 4) Build your menu/offering maps
+  data.menus.forEach(m => {
+    menuMap[m.menu] = m;
+    const p = m.parent || null;
+    (childrenMap[p] = childrenMap[p]||[]).push(m);
   });
-  data.offerings.forEach(off => {
-    (offeringMap[off.menu] = offeringMap[off.menu] || []).push(off);
+  data.offerings.forEach(o => {
+    (offeringMap[o.menu] = offeringMap[o.menu]||[]).push(o);
   });
 
-  // Render tree
+  // 5) Render the tree
   const container = document.getElementById("tree-container");
-  (childrenMap[null] || []).forEach(menu => container.appendChild(renderMenu(menu)));
+  ;(childrenMap[null]||[]).forEach(m => container.appendChild(renderMenu(m)));
 
-  // Drop on toolbar: save & close overlay, show Save/Revert
+  // 6) Drop onto toolbar = save & close overlay → show Save/Revert
   toolbar.addEventListener("dragover", e => e.preventDefault());
   toolbar.addEventListener("drop", e => {
     e.preventDefault();
@@ -56,7 +66,7 @@ window.onload = async function() {
     toolbar.appendChild(handyman);
   });
 
-  // Drop on homeIcon: save but keep overlay open
+  // 7) Drop onto homeIcon = save but keep overlay open
   homeIcon.addEventListener("dragover", e => e.preventDefault());
   homeIcon.addEventListener("drop", e => {
     e.preventDefault();
@@ -65,115 +75,146 @@ window.onload = async function() {
   });
 };
 
-// Create a card element (menu or offering)
-function createCard(type, data) {
-  const card = document.createElement("div");
-  card.className = `card ${type}-card`;
-  card.dataset.type = type;
+//
+// ——— Core rendering & overlay logic —————————————————————————————————————
+//
 
-  // Apply all data fields into dataset
-  Object.entries(data).forEach(([k, v]) => {
-    if (k === "type") return;
-    card.dataset[k] = v || "";
-  });
-
-  updateCardDisplay(card);
-
-  // Make it a drop target and clickable to edit
-  card.addEventListener("dragover", e => e.preventDefault());
-  card.addEventListener("drop", () => showOverlay(card, { ...data, type }));
-  return card;
-}
-
-// Recursive tree rendering
+// Recursively render a menu + its offerings + sub‐menus
 function renderMenu(menu, level = 0) {
   const wrapper = document.createElement("div");
   wrapper.style.marginLeft = `${level * 20}px`;
+
+  // menu card
   wrapper.appendChild(createCard("menu", menu));
-  (offeringMap[menu.menu] || []).forEach(off =>
-    wrapper.appendChild(createCard("offering", off))
+
+  // its offerings
+  (offeringMap[menu.menu]||[]).forEach(o =>
+    wrapper.appendChild(createCard("offering", o))
   );
-  (childrenMap[menu.menu] || []).forEach(child =>
-    wrapper.appendChild(renderMenu(child, level + 1))
+
+  // its child menus
+  (childrenMap[menu.menu]||[]).forEach(child =>
+    wrapper.appendChild(renderMenu(child, level+1))
   );
+
   return wrapper;
 }
 
-// Show the editor overlay for a given card
+// Create a single card (menu or offering)
+function createCard(type, data) {
+  const card = document.createElement("div");
+  card.className       = `card ${type}-card`;
+  card.dataset.type    = type;
+
+  // write every schema property into dataset (so new cards get all keys)
+  const schema = type === "menu" ? menuSchema : offeringSchema;
+  Object.keys(schema.properties).forEach(key => {
+    // prefer any incoming data, else blank
+    card.dataset[key] = data[key] ?? "";
+  });
+
+  updateCardDisplay(card);
+  card.addEventListener("dragover", e => e.preventDefault());
+  card.addEventListener("drop", () => showOverlay(card, data));
+
+  return card;
+}
+
+// Show the overlay for editing or adding
 function showOverlay(card, data) {
-  // If another overlay is open, save it first
+  // If another overlay is open, save it first and remove it
   if (currentOverlay && lastEditedCard) {
     saveCurrentOverlay();
     removeOverlay();
   }
 
+  // Track this card as the last one being edited
   lastEditedCard = card;
-  // Store original data for revert (only if not already stored)
+
+  // Store a snapshot of its original data for “Revert” (only once)
   if (!card._originalData) {
     card._originalData = { ...card.dataset };
   }
 
+  // Determine whether this is a menu or an offering
+  const cardType = card.dataset.type;                    // “menu” or “offering”
+  const schema   = (cardType === "menu") ? menuSchema : offeringSchema;
+
+  // Build the overlay container
   const overlay = document.createElement("div");
   overlay.className = "editor-overlay";
 
-  // Build input fields
-  Object.entries(data).forEach(([k, v]) => {
-    if (k === "type") return;
-    const existing = card.dataset[k] || v || "";
-    const field = document.createElement("div");
-    field.innerHTML = `<label>${k}: <input name="${k}" value="${existing}"></label>`;
-    overlay.appendChild(field);
+  // Create one input row per field defined in the schema
+  Object.entries(schema.properties).forEach(([key, def]) => {
+    // Prefill from dataset if present, else from incoming data, else blank
+    const existing = card.dataset[key] ?? data[key] ?? "";
+    const row = document.createElement("div");
+    row.innerHTML = `
+      <label>
+        ${key}${(schema.required||[]).includes(key) ? "*" : ""}:
+        <input name="${key}" value="${existing}">
+      </label>`;
+    overlay.appendChild(row);
   });
 
-  // If editing a menu, add the “Add Offering” & “Add Sub-menu” buttons
-  if (data.type === "menu") {
-    const btnContainer = document.createElement("div");
-    btnContainer.className = "overlay-actions";
+  // If this is a menu card, inject the “Add Offering” + “Add Sub-menu” buttons
+  if (cardType === "menu") {
+    const actions = document.createElement("div");
+    actions.className = "overlay-actions";
 
-    // Add Offering
+    // — Add Offering Button —
     const addOfferingBtn = document.createElement("button");
     addOfferingBtn.textContent = "Add Offering";
     addOfferingBtn.addEventListener("click", () => {
-      const newOff = { menu: data.menu, text: "", type: "offering" };
+      // Build an empty offering based on the offering schema
+      const newOff = { type: "offering" };
+      Object.keys(offeringSchema.properties).forEach(k => {
+        newOff[k] = (k === "menu") ? card.dataset.menu : "";
+      });
       const newCard = createCard("offering", newOff);
-      newCard._isNew = true;            // mark as newly added
+      newCard._isNew = true;
       card.parentNode.insertBefore(newCard, card.nextSibling);
       showOverlay(newCard, newOff);
     });
-    btnContainer.appendChild(addOfferingBtn);
+    actions.appendChild(addOfferingBtn);
 
-    // Add Sub-menu
+    // — Add Sub-menu Button —
     const addSubmenuBtn = document.createElement("button");
     addSubmenuBtn.textContent = "Add Sub-menu";
     addSubmenuBtn.addEventListener("click", () => {
-      const newMenu = { menu: "", text: "", parent: data.menu, type: "menu" };
+      // Build an empty submenu based on the menu schema
+      const newMenu = { type: "menu" };
+      Object.keys(menuSchema.properties).forEach(k => {
+        newMenu[k] = (k === "parent") ? card.dataset.menu : "";
+      });
       const newCard = createCard("menu", newMenu);
-      newCard._isNew = true;            // mark as newly added
+      newCard._isNew = true;
       card.parentNode.insertBefore(newCard, card.nextSibling);
       showOverlay(newCard, newMenu);
     });
-    btnContainer.appendChild(addSubmenuBtn);
+    actions.appendChild(addSubmenuBtn);
 
-    overlay.appendChild(btnContainer);
+    overlay.appendChild(actions);
   }
 
-  // Make the overlay a drop target for the handyman
+  // Make the overlay itself a drop target for the handyman
   overlay.addEventListener("dragover", e => e.preventDefault());
   overlay.addEventListener("drop", e => {
     e.preventDefault();
     overlay.appendChild(handyman);
   });
 
-  // Move the handyman into the overlay
+  // Finally, move the handyman into the overlay and attach it
   overlay.appendChild(handyman);
   card.appendChild(overlay);
   currentOverlay = overlay;
 }
 
-// Save inputs into the card’s dataset and mark for saving
+
+// save form → dataset + mark as unsaved
 function saveCurrentOverlay() {
-  currentOverlay.querySelectorAll("input").forEach(input => {
-    lastEditedCard.dataset[input.name] = input.value;
+  currentOverlay.querySelectorAll("input").forEach(inp => {
+    lastEditedCard.dataset[inp.name] = inp.value;
   });
   updateCardDisplay(lastEditedCard);
   if (!unsavedCards.includes(lastEditedCard)) {
@@ -181,15 +222,13 @@ function saveCurrentOverlay() {
   }
 }
 
-// Remove the open overlay
+// remove the overlay from the card
 function removeOverlay() {
-  if (currentOverlay) {
-    currentOverlay.remove();
-    currentOverlay = null;
-  }
+  currentOverlay.remove();
+  currentOverlay = null;
 }
 
-// Update a card’s visible text from its dataset
+// reflect dataset → visible card text
 function updateCardDisplay(card) {
   if (card.dataset.type === "menu") {
     card.textContent = `${card.dataset.menu}: ${card.dataset.text}`;
@@ -198,7 +237,7 @@ function updateCardDisplay(card) {
   }
 }
 
-// Inject “Save All” & “Revert All” buttons into the toolbar
+// show Save All / Revert All in the toolbar
 function showSaveRevertButtons(toolbar) {
   if (toolbar.querySelector("#save-btn")) return;
 
@@ -206,50 +245,41 @@ function showSaveRevertButtons(toolbar) {
   saveBtn.id = "save-btn";
   saveBtn.textContent = "Save All";
   saveBtn.onclick = async () => {
-    const payload = unsavedCards.map(card => {
-      const ds = card.dataset;
-      return {
-        type: ds.type,
-        menu: ds.menu,
-        text: ds.text,
-        parent: ds.parent || null
-      };
+    const payload = unsavedCards.map(c => {
+      const ds = c.dataset;
+      return { type: ds.type, ...ds };
     });
-
     await fetch("/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ changes: payload })
-    }).catch(err => alert("Save failed: " + err));
-
+    }).catch(e => alert("Save failed: "+e));
     cleanupButtons(toolbar);
   };
   toolbar.appendChild(saveBtn);
 
-  const revertBtn = document.createElement("button");
-  revertBtn.id = "revert-btn";
-  revertBtn.textContent = "Revert All";
-  revertBtn.onclick = () => {
-    unsavedCards.forEach(card => {
-      if (card._isNew) {
-        // remove newly added cards
-        card.remove();
+  const revBtn = document.createElement("button");
+  revBtn.id = "revert-btn";
+  revBtn.textContent = "Revert All";
+  revBtn.onclick = () => {
+    unsavedCards.forEach(c => {
+      if (c._isNew) {
+        c.remove();
       } else {
-        // restore existing cards from their original data
-        Object.entries(card._originalData).forEach(([k, v]) => {
-          card.dataset[k] = v;
+        Object.entries(c._originalData).forEach(([k,v]) => {
+          c.dataset[k] = v;
         });
-        updateCardDisplay(card);
+        updateCardDisplay(c);
       }
     });
     cleanupButtons(toolbar);
   };
-  toolbar.appendChild(revertBtn);
+  toolbar.appendChild(revBtn);
 }
 
-// Remove buttons and clear state
+// clear buttons & reset state
 function cleanupButtons(toolbar) {
-  ["#save-btn", "#revert-btn"].forEach(sel => {
+  ["#save-btn","#revert-btn"].forEach(sel => {
     const b = toolbar.querySelector(sel);
     if (b) b.remove();
   });

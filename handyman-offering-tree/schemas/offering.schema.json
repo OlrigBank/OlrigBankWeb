@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Offering",
+  "type": "object",
+  "properties": {
+    "image": {
+      "type": "string",
+      "description": "Filename or identifier for the offering’s image"
+    },
+    "link": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL the offering card links to"
+    },
+    "menu": {
+      "type": "string",
+      "description": "Identifier of the menu this offering belongs to"
+    },
+    "text": {
+      "type": "string",
+      "description": "Display text or caption for this offering"
+    }
+  },
+  "required": ["image", "link", "menu", "text"]
+}
