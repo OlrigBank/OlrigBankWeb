@@ -146,14 +146,40 @@ function showOverlay(card, data) {
 
   // Create one input row per field defined in the schema
   Object.entries(schema.properties).forEach(([key, def]) => {
-    // Prefill from dataset if present, else from incoming data, else blank
-    const existing = card.dataset[key] ?? data[key] ?? "";
     const row = document.createElement("div");
-    row.innerHTML = `
-      <label>
-        ${key}${(schema.required||[]).includes(key) ? "*" : ""}:
-        <input name="${key}" value="${existing}">
-      </label>`;
+    if (cardType === "offering" && key === "image") {
+      // file-picker for image uploads
+      row.innerHTML = `
+        <label>${key}:</label>
+        <input type="file" name="${key}" accept="image/*">
+        <div class="preview">${card.dataset[key] ? `<img src="/static/images/${card.dataset[key]}" height="60">` : ""}</div>`;
+
+      const fileInput = row.querySelector("input[type=file]");
+      fileInput.addEventListener("change", async e => {
+        const f = e.target.files[0];
+        if (!f) return;
+        const form = new FormData();
+        form.append("file", f);
+        const resp = await fetch("/upload", { method: "POST", body: form });
+        const json = await resp.json();
+        if (json.filename) {
+          // stash filename in dataset and update preview
+          card.dataset.image = json.filename;
+          row.querySelector(".preview").innerHTML = `<img src="/static/images/${json.filename}" height="60">`;
+        } else {
+          alert("Upload error: " + (json.error||"unknown"));
+        }
+      });
+
+    } else {
+      const existing = card.dataset[key] ?? data[key] ?? "";
+      row.innerHTML = `
+        <label>
+          ${key}${(schema.required||[]).includes(key) ? "*" : ""}:
+          <input name="${key}" value="${existing}">
+        </label>`;
+    }
+
     overlay.appendChild(row);
   });
 

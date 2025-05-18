@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
+from flask import Flask, render_template, request, jsonify, send_from_directory
+from werkzeug.utils import secure_filename
+
 
 try:
     import tomllib
@@ -104,6 +106,32 @@ def serve_schema(filename):
         filename,
         mimetype="application/json"
     )
+
+# where to stash uploads
+UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route("/upload", methods=["POST"])
+def upload_image():
+    if "file" not in request.files:
+        return jsonify({"error": "no file part"}), 400
+    file = request.files["file"]
+    if file.filename == "":
+        return jsonify({"error": "no selected file"}), 400
+    if not allowed_file(file.filename):
+        return jsonify({"error": "file type not allowed"}), 400
+
+    filename = secure_filename(file.filename)
+    save_path = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(save_path)
+
+    # return the filename so the client can reference it
+    return jsonify({"filename": filename})
+
 
 if __name__ == "__main__":
     app.run(debug=True)
