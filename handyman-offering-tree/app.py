@@ -39,21 +39,51 @@ def save_changes():
 
     # 3) Apply each change
     for change in changes:
-        typ       = change.get("type")
-        key_menu  = change.get("menu")
-        new_text  = change.get("text", "")
+        typ = change.get("type")
+        key_menu = change.get("menu")
+        new_text = change.get("text", "")
+        parent = change.get("parent", None)
 
         if typ == "menu":
-            # Find the menu entry by its 'menu' key
-            for m in data.get("menus", []):
+            # Try to update an existing menu...
+            found = False
+            for m in data.setdefault("menus", []):
                 if m.get("menu") == key_menu:
                     m["text"] = new_text
-        elif typ == "offering":
-            # Find the first offering under that menu
-            for o in data.get("offerings", []):
-                if o.get("menu") == key_menu:
-                    o["text"] = new_text
+                    if parent is not None:
+                        m["parent"] = parent
+                    found = True
                     break
+
+            # …or insert it if missing
+            if not found:
+                new_menu = {"menu": key_menu, "text": new_text}
+                if parent:
+                    new_menu["parent"] = parent
+                data["menus"].append(new_menu)
+
+        elif typ == "offering":
+            # Similar “upsert” logic for offerings
+            found = False
+            for o in data.setdefault("offerings", []):
+                # you may need a better key here if offerings can repeat text
+                if o.get("menu") == key_menu and o.get("text") == change.get("old_text", o.get("text")):
+                    # update existing
+                    for k in ("text", "link", "image"):
+                        if k in change:
+                            o[k] = change[k]
+                    found = True
+                    break
+
+            if not found:
+                # append a brand‐new offering
+                new_off = {
+                    "menu": change["menu"],
+                    "text": change.get("text", ""),
+                }
+                if "link" in change: new_off["link"] = change["link"]
+                if "image" in change: new_off["image"] = change["image"]
+                data["offerings"].append(new_off)
 
     # 4) Write back to site_structure.toml
     try:

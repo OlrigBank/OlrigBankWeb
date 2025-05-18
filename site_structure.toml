@@ -28,6 +28,16 @@ menu = "Activities"
 parent = "Local"
 text = "A wide variety of local activities"
 
+[[menus]]
+menu = "Shopping"
+text = "Local Shops with character"
+parent = "Local"
+
+[[menus]]
+menu = "music"
+text = "Live Music Venues"
+parent = "Local"
+
 [[offerings]]
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
@@ -57,4 +67,16 @@ image = "kcw"
 link = "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"
 menu = "Activities"
 text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
+
+[[offerings]]
+menu = "Shopping"
+text = "A traditional local butcher"
+link = "https://www.facebook.com/watsonandwoollardbutchers/"
+image = "butcher"
+
+[[offerings]]
+menu = "music"
+text = "From folk to jazz"
+link = "https://www.facebook.com/TheRiflemansArms/"
+image = "rifleman"
 
