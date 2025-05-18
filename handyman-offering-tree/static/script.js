@@ -182,16 +182,29 @@ function showOverlay(card, data) {
     const addSubmenuBtn = document.createElement("button");
     addSubmenuBtn.textContent = "Add Sub-menu";
     addSubmenuBtn.addEventListener("click", () => {
-      // Build an empty submenu based on the menu schema
+      // 1) Build the raw data object
       const newMenu = { type: "menu" };
       Object.keys(menuSchema.properties).forEach(k => {
         newMenu[k] = (k === "parent") ? card.dataset.menu : "";
       });
-      const newCard = createCard("menu", newMenu);
-      newCard._isNew = true;
-      card.parentNode.insertBefore(newCard, card.nextSibling);
-      showOverlay(newCard, newMenu);
+
+      // 2) Compute the new nesting level from the wrapper’s margin
+      const wrapper    = card.parentNode;
+      const baseIndent = parseInt(wrapper.style.marginLeft || '0', 10);
+      const level      = baseIndent / 20 + 1;
+
+      // 3) Render a full submenu block at that level
+      const submenuWrapper = renderMenu(newMenu, level);
+
+      // 4) Grab the actual <div class="menu-card"> inside it
+      const submenuCard = submenuWrapper.querySelector('.menu-card');
+      submenuCard._isNew = true;
+
+      // 5) Insert the wrapped block and open its overlay
+      wrapper.insertBefore(submenuWrapper, card.nextSibling);
+      showOverlay(submenuCard, newMenu);
     });
+
     actions.appendChild(addSubmenuBtn);
 
     overlay.appendChild(actions);
