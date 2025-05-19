@@ -45,10 +45,10 @@ menu = "Whats On"
 text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
-image = ""
-link = "https://baba-ganoush.co.uk/"
+image = "C:\\fakepath\\kendalpeoplescafe.png"
+link = "https://wasteintowellbeing.org.uk/"
 menu = "Eating Out"
-text = "Baba Ganoush - simply the best!"
+text = "A great place to eat "
 
 [[offerings]]
 image = "kendalcastle"
