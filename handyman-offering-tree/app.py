@@ -108,7 +108,8 @@ def serve_schema(filename):
     )
 
 # where to stash uploads
-UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+PROJECT_ROOT  = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, "static", "images")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 

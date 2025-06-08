@@ -252,15 +252,27 @@ function showOverlay(card, data) {
 
 // save form → dataset + mark as unsaved
 function saveCurrentOverlay() {
-  currentOverlay.querySelectorAll("input").forEach(inp => {
-    lastEditedCard.dataset[inp.name] = inp.value;
+  currentOverlay.querySelectorAll("input").forEach(input => {
+    if (input.type === "file") {
+      // if the user picked a file, grab its real name
+      if (input.files && input.files.length > 0) {
+        const filename = input.files[0].name;
+        lastEditedCard.dataset[input.name] = filename;
+      }
+    } else {
+      // all other fields as before
+      lastEditedCard.dataset[input.name] = input.value;
+    }
   });
+
+  // re‐render the card (so the preview icon shows)
   updateCardDisplay(lastEditedCard);
+
+  // mark for saving
   if (!unsavedCards.includes(lastEditedCard)) {
     unsavedCards.push(lastEditedCard);
   }
 }
-
 // remove the overlay from the card
 function removeOverlay() {
   currentOverlay.remove();

@@ -34,7 +34,7 @@ text = "Local Shops with character"
 parent = "Local"
 
 [[menus]]
-menu = "music"
+menu = "Music"
 text = "Live Music Venues"
 parent = "Local"
 
@@ -45,7 +45,7 @@ menu = "Whats On"
 text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
-image = "C:\\fakepath\\kendalpeoplescafe.png"
+image = "kendalpeoplescafe"
 link = "https://wasteintowellbeing.org.uk/"
 menu = "Eating Out"
 text = "A great place to eat "
@@ -70,13 +70,13 @@ text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
 
 [[offerings]]
 menu = "Shopping"
-text = "A traditional local butcher"
+text = "Watson & Wollard is a high quality traditional local butcher"
 link = "https://www.facebook.com/watsonandwoollardbutchers/"
-image = "butcher"
+image = "watson-wollard"
 
 [[offerings]]
-menu = "music"
+menu = "Music"
 text = "From folk to jazz"
 link = "https://www.facebook.com/TheRiflemansArms/"
-image = "rifleman"
+image = "riflemansarms"
 
