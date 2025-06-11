@@ -38,6 +38,11 @@ menu = "Music"
 text = "Live Music Venues"
 parent = "Local"
 
+[[menus]]
+menu = "Festivals"
+text = "Gatherings that are still come this year"
+parent = "Home"
+
 [[offerings]]
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
@@ -45,10 +50,10 @@ menu = "Whats On"
 text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
-image = "kendalpeoplescafe"
-link = "https://wasteintowellbeing.org.uk/"
+image = "Babaganoush"
+link = "https://babaganoushkendal.co.uk/"
 menu = "Eating Out"
-text = "A great place to eat "
+text = "Baba Ganoush - What a place! When it is open"
 
 [[offerings]]
 image = "kendalcastle"
@@ -79,4 +84,10 @@ menu = "Music"
 text = "From folk to jazz"
 link = "https://www.facebook.com/TheRiflemansArms/"
 image = "riflemansarms"
+
+[[offerings]]
+menu = "Festivals"
+text = "The Kendal Mountain Festival - The Everest of Festivals "
+link = "https://www.kendalmountainfestival.com/"
+image = "mountain"
 

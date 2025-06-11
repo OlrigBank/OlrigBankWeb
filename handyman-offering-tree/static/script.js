@@ -163,9 +163,12 @@ function showOverlay(card, data) {
         const resp = await fetch("/upload", { method: "POST", body: form });
         const json = await resp.json();
         if (json.filename) {
-          // stash filename in dataset and update preview
-          card.dataset.image = json.filename;
-          row.querySelector(".preview").innerHTML = `<img src="/static/images/${json.filename}" height="60">`;
+          // strip extension for main‐app ID, but keep raw name for preview
+         const raw = json.filename;
+         const name = raw.replace(/\.[^/.]+$/, "");
+         card.dataset.image = name;
+         row.querySelector(".preview").innerHTML =
+             `<img src="/static/images/${raw}" height="60">`;
         } else {
           alert("Upload error: " + (json.error||"unknown"));
         }
@@ -256,8 +259,9 @@ function saveCurrentOverlay() {
     if (input.type === "file") {
       // if the user picked a file, grab its real name
       if (input.files && input.files.length > 0) {
-        const filename = input.files[0].name;
-        lastEditedCard.dataset[input.name] = filename;
+        const raw = input.files[0].name;
+        const name = raw.replace(/\.[^/.]+$/, "");
+        lastEditedCard.dataset[input.name] = name;
       }
     } else {
       // all other fields as before
