@@ -64,18 +64,27 @@ def save_changes():
                     new_menu["parent"] = parent
                 data["menus"].append(new_menu)
 
-        elif typ == "offering":
-            # Similar “upsert” logic for offerings
-            found = False
-            for o in data.setdefault("offerings", []):
-                # you may need a better key here if offerings can repeat text
-                if o.get("menu") == key_menu and o.get("text") == change.get("old_text", o.get("text")):
-                    # update existing
-                    for k in ("text", "link", "image"):
-                        if k in change:
-                            o[k] = change[k]
-                    found = True
-                    break
+            elif typ == "offering":
+                # 1) Ensure we have an offerings list
+                offerings = data.setdefault("offerings", [])
+
+                # 2) Try to update an existing entry that exactly matches this one
+                updated = False
+                for o in offerings:
+                    # match by menu + original text (or other unique key, if you have one)
+                    if o.get("menu") == change.get("menu") and o.get("text") == change.get("original_text",
+                                                                                           o.get("text")):
+                        # apply *all* new values from the payload
+                        for k, v in change.items():
+                            if k != "type":
+                                o[k] = v
+                        updated = True
+                        break
+
+                # 3) If nothing matched, append a brand-new offering
+                if not updated:
+                    new_off = {k: v for k, v in change.items() if k != "type"}
+                    offerings.append(new_off)
 
             if not found:
                 # append a brand‐new offering

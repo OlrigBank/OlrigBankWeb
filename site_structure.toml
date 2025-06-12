@@ -56,6 +56,12 @@ menu = "Eating Out"
 text = "Baba Ganoush - What a place! When it is open"
 
 [[offerings]]
+image = "kendalpeoplescafe"
+link = "https://wasteintowellbeing.org.uk/"
+menu = "Eating Out"
+text = "A great place to eat "
+
+[[offerings]]
 image = "kendalcastle"
 link = "https://www.alltrails.com/trail/england/cumbria/kendal-castle-trail"
 menu = "Local Walks"
@@ -90,4 +96,10 @@ menu = "Festivals"
 text = "The Kendal Mountain Festival - The Everest of Festivals "
 link = "https://www.kendalmountainfestival.com/"
 image = "mountain"
+
+[[offerings]]
+menu = "Festivals"
+text = "The Lakes International Comic Art Festival - born in Kendal "
+link = "https://www.comicartfestival.com/"
+image = "comic-art-featival"
 
