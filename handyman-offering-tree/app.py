@@ -32,70 +32,64 @@ def add_header(response):
     return response
 
 @app.route("/save", methods=["POST"])
+@app.route("/save", methods=["POST"])
 def save_changes():
-    # 1) Read incoming JSON payload
-    changes = request.json.get("changes", [])
 
-    # 2) Load existing TOML data
+    changes = request.json.get("changes", [])
     data = load_toml(DATA_FILE)
 
-    # 3) Apply each change
+
+    # helper to generate next numeric string ID
+    def next_id(items):
+        # extract all existing numeric ids, pick max+1
+        nums = [int(x["id"]) for x in items if "id" in x and str(x["id"]).isdigit()]
+        return str(max(nums + [0]) + 1)
+
+
     for change in changes:
         typ = change.get("type")
-        key_menu = change.get("menu")
-        new_text = change.get("text", "")
+        cid = change.get("id")
         parent = change.get("parent", None)
 
         if typ == "menu":
-            # Try to update an existing menu...
-            found = False
-            for m in data.setdefault("menus", []):
-                if m.get("menu") == key_menu:
-                    m["text"] = new_text
-                    if parent is not None:
-                        m["parent"] = parent
-                    found = True
-                    break
-
-            # …or insert it if missing
-            if not found:
-                new_menu = {"menu": key_menu, "text": new_text}
-                if parent:
-                    new_menu["parent"] = parent
-                data["menus"].append(new_menu)
-
-            elif typ == "offering":
-                # 1) Ensure we have an offerings list
-                offerings = data.setdefault("offerings", [])
-
-                # 2) Try to update an existing entry that exactly matches this one
-                updated = False
-                for o in offerings:
-                    # match by menu + original text (or other unique key, if you have one)
-                    if o.get("menu") == change.get("menu") and o.get("text") == change.get("original_text",
-                                                                                           o.get("text")):
-                        # apply *all* new values from the payload
-                        for k, v in change.items():
-                            if k != "type":
-                                o[k] = v
-                        updated = True
-                        break
-
-                # 3) If nothing matched, append a brand-new offering
-                if not updated:
-                    new_off = {k: v for k, v in change.items() if k != "type"}
-                    offerings.append(new_off)
-
-            if not found:
-                # append a brand‐new offering
-                new_off = {
-                    "menu": change["menu"],
+            menus = data.setdefault("menus", [])
+            # try update by id
+            target = next((m for m in menus if m.get("id") == cid), None)
+            if target:
+                # update text & parent
+                target["text"] = change.get("text", target.get("text"))
+                if parent is not None:
+                    target["parent"] = parent
+            else:
+                # insert new menu with generated id if none provided
+                new_id = cid or next_id(menus)
+                new_menu = {
+                    "id": new_id,
+                    "menu": change.get("menu", ""),
                     "text": change.get("text", ""),
                 }
-                if "link" in change: new_off["link"] = change["link"]
-                if "image" in change: new_off["image"] = change["image"]
-                data["offerings"].append(new_off)
+                if parent:
+                    new_menu["parent"] = parent
+                menus.append(new_menu)
 
+        elif typ == "offering":
+            offs = data.setdefault("offerings", [])
+            target = next((o for o in offs if o.get("id") == cid), None)
+            if target:
+                # update all provided fields
+                for k, v in change.items():
+                    if k not in ("type",):
+                        target[k] = v
+            else:
+                # append new offering, generating id if needed
+                new_id = cid or next_id(offs)
+                new_off = {"id": new_id}
+                for k in ("menu", "text", "link", "image", "parent"):
+                    if k in change:
+                        new_off[k] = change[k]
+                offs.append(new_off)
+
+    # write back
     # 4) Write back to site_structure.toml
     try:
         import toml as toml_write

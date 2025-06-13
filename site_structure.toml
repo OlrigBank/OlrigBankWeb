@@ -1,105 +1,144 @@
 [[menus]]
+id = "1"
 menu = "Home"
 parent = ""
 text = "Welcome to Kendal the home of Olrig Bank"
 
 [[menus]]
+id = "2"
 menu = "Whats On"
 parent = "Home"
 text = "Links to sites that will keep you abreast about what is happening"
 
 [[menus]]
+id = "3"
 menu = "Local"
 parent = "Home"
 text = "Olrig Bank's recommended local delights"
 
 [[menus]]
+id = "4"
 menu = "Eating Out"
 parent = "Local"
 text = "Places we where we love to eat"
 
 [[menus]]
+id = "5"
 menu = "Local Walks"
 parent = "Local"
 text = "Good walks to take close to the house"
 
 [[menus]]
+id = "6"
 menu = "Activities"
 parent = "Local"
 text = "A wide variety of local activities"
 
 [[menus]]
+id = "7"
 menu = "Shopping"
 text = "Local Shops with character"
 parent = "Local"
 
 [[menus]]
+id = "8"
 menu = "Music"
 text = "Live Music Venues"
 parent = "Local"
 
 [[menus]]
+id = "9"
 menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
 
+[[menus]]
+id = "10"
+menu = "Music"
+text = "Live Music Venues"
+parent = "Local"
+
 [[offerings]]
+id = "1"
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
 menu = "Whats On"
 text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
+id = "2"
 image = "Babaganoush"
 link = "https://babaganoushkendal.co.uk/"
 menu = "Eating Out"
 text = "Baba Ganoush - What a place! When it is open"
 
 [[offerings]]
+id = "3"
 image = "kendalpeoplescafe"
 link = "https://wasteintowellbeing.org.uk/"
 menu = "Eating Out"
 text = "A great place to eat "
 
 [[offerings]]
+id = "4"
 image = "kendalcastle"
 link = "https://www.alltrails.com/trail/england/cumbria/kendal-castle-trail"
 menu = "Local Walks"
 text = "Play the grand old Duke of Kendal!"
 
 [[offerings]]
+id = "5"
 image = "qtm"
 link = "https://www.quaker-tapestry.co.uk/"
 menu = "Activities"
 text = "The Quaker Tapestry tells the story of Quakers in 77 embroidered panels"
 
 [[offerings]]
+id = "6"
 image = "kcw"
 link = "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"
 menu = "Activities"
 text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
 
 [[offerings]]
+id = "7"
 menu = "Shopping"
 text = "Watson & Wollard is a high quality traditional local butcher"
 link = "https://www.facebook.com/watsonandwoollardbutchers/"
 image = "watson-wollard"
 
 [[offerings]]
+id = "8"
 menu = "Music"
 text = "From folk to jazz"
 link = "https://www.facebook.com/TheRiflemansArms/"
 image = "riflemansarms"
 
 [[offerings]]
+id = "9"
 menu = "Festivals"
 text = "The Kendal Mountain Festival - The Everest of Festivals "
 link = "https://www.kendalmountainfestival.com/"
 image = "mountain"
 
 [[offerings]]
+id = "10"
 menu = "Festivals"
 text = "The Lakes International Comic Art Festival - born in Kendal "
 link = "https://www.comicartfestival.com/"
 image = "comic-art-featival"
+
+[[offerings]]
+id = "11"
+menu = "Music"
+text = "The Brewery - Attracts great acts"
+link = "https://www.breweryarts.co.uk/whats-on/live-music/"
+image = "Brewery-music"
+
+[[offerings]]
+id = "12"
+menu = "Music"
+text = "The Rifleman Arms - Live offerings from folk to jazz"
+link = "https://www.facebook.com/TheRiflemansArms/"
+image = "riflemansarms"
 
