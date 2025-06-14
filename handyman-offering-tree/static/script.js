@@ -137,7 +137,8 @@ function showOverlay(card, data) {
   }
 
   // Determine whether this is a menu or an offering
-  const cardType = card.dataset.type;                    // “menu” or “offering”
+  // Never allow an empty type – default to “menu”
+  const cardType = card.dataset.type || "menu";          // “menu” or “offering”
   const schema   = (cardType === "menu") ? menuSchema : offeringSchema;
 
   // Build the overlay container

@@ -54,8 +54,8 @@ parent = "Home"
 
 [[menus]]
 id = "10"
-menu = "Music"
-text = "Live Music Venues"
+menu = "Shopping"
+text = "Local Shops with character"
 parent = "Local"
 
 [[offerings]]
@@ -110,7 +110,7 @@ image = "watson-wollard"
 [[offerings]]
 id = "8"
 menu = "Music"
-text = "From folk to jazz"
+text = "The Rifleman Arms - Live offerings from folk to jazz"
 link = "https://www.facebook.com/TheRiflemansArms/"
 image = "riflemansarms"
 
@@ -136,9 +136,23 @@ link = "https://www.breweryarts.co.uk/whats-on/live-music/"
 image = "Brewery-music"
 
 [[offerings]]
-id = "12"
+id = "13"
 menu = "Music"
-text = "The Rifleman Arms - Live offerings from folk to jazz"
-link = "https://www.facebook.com/TheRiflemansArms/"
-image = "riflemansarms"
+text = "Kendal's Annual music Feastival"
+link = "https://visit-kendal.co.uk/event/kendal-music-festival-2/"
+image = "kendal-music-feastival"
+
+[[offerings]]
+id = "14"
+menu = "Music"
+text = "Kendal Jazz club - New to the Brewery"
+link = "https://www.breweryarts.co.uk/event/jazz-club/"
+image = "kendal-jazz"
+
+[[offerings]]
+id = "15"
+menu = "Shopping"
+text = "The Staff Of Life - An absolutely lovely bakery"
+link = "https://www.facebook.com/bakenyinkendal/"
+image = "staff-of-life"
 
