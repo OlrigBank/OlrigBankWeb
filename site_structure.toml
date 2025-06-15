@@ -52,13 +52,18 @@ menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
 
+[[menus]]
+id = "10"
+menu = "Antiques & Collectibles"
+text = "Shops that just a delight to wander around"
+parent = "Local"
 
 [[offerings]]
 id = "1"
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
 menu = "Whats On"
-text = "The Visit Kendal site to easiest way to find out what is going on in the town during your stay"
+text = "The Visit Kendal Site - The easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
 id = "2"
@@ -70,9 +75,9 @@ text = "Baba Ganoush - What a place! When it is open"
 [[offerings]]
 id = "3"
 image = "kendalpeoplescafe"
-link = "https://wasteintowellbeing.org.uk/"
+link = "https://wasteintowellbeing.org.uk/kendal-peoples-cafe/"
 menu = "Eating Out"
-text = "A great place to eat "
+text = "Kendal People Cafe - A great place to eat and to see a community in action"
 
 [[offerings]]
 id = "4"
@@ -158,4 +163,10 @@ text = "Kendal Fish & Seafoods - A great fishmonger on Stramongate"
 link = "https://www.facebook.com/kendalfishltd/"
 image = "kendalfishandseafoods"
 
+[[offerings]]
+id = "17"
+menu = "Antiques & Collectibles"
+text = "The Nutshell - A gem, Crammed to the rafters with stuff! some of it is very valuable  "
+link = "https://www.google.com/maps/place//data=!4m2!3m1!1s0x487c8de746e95feb:0xbb11fc5e10c5b453?sa=X&ved=1t:8290&ictx=111"
+image = "nutshell"
 

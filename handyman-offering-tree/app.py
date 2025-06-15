@@ -138,4 +138,5 @@ def upload_image():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # bind to 0.0.0.0 so it listens on all interfaces (LAN, localhost, etc.)
+    app.run(debug=True, host="0.0.0.0", port=5000, use_reloader=False)

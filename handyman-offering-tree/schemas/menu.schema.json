@@ -3,6 +3,10 @@
   "title": "Menu",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique id generated for this menu when it is stored"
+    },
     "menu": {
       "type": "string",
       "description": "Unique identifier / title for this menu"

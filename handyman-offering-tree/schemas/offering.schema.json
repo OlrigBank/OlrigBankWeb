@@ -3,6 +3,10 @@
   "title": "Offering",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique id generated for this menu when it is stored"
+    },
     "image": {
       "type": "string",
       "description": "Filename or identifier for the offering’s image"
