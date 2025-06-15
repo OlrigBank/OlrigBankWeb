@@ -170,3 +170,10 @@ text = "The Nutshell - A gem, Crammed to the rafters with stuff! some of it is v
 link = "https://www.google.com/maps/place//data=!4m2!3m1!1s0x487c8de746e95feb:0xbb11fc5e10c5b453?sa=X&ved=1t:8290&ictx=111"
 image = "nutshell"
 
+[[offerings]]
+id = "18"
+menu = "Eating Out"
+text = "The Joshua Tree - Provides a great English Breakfast"
+link = "https://joshuatreebistro.co.uk/"
+image = "JoshuaTree"
+
