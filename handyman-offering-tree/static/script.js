@@ -3,6 +3,27 @@ let currentOverlay = null;
 let lastEditedCard = null;
 let unsavedCards = [];
 
+// Updates only the dataset & UI without marking the card as “changed”
+function updateDatasetOnly() {
+  currentOverlay.querySelectorAll("input").forEach(input => {
+    if (input.type === "file" && input.files && input.files[0]) {
+      const raw  = input.files[0].name;
+      const name = raw.replace(/\.[^/.]+$/, "");
+      lastEditedCard.dataset[input.name] = name;
+    } else if (input.type !== "file") {
+      lastEditedCard.dataset[input.name] = input.value;
+    }
+  });
+  updateCardDisplay(lastEditedCard);
+}
+
+// Marks the last‐edited card for inclusion in “Save All”
+function markUnsaved() {
+  if (!unsavedCards.includes(lastEditedCard)) {
+    unsavedCards.push(lastEditedCard);
+  }
+}
+
 // Data maps
 let menuMap = {};
 let childrenMap = {};
@@ -59,7 +80,8 @@ window.onload = async function() {
   toolbar.addEventListener("drop", e => {
     e.preventDefault();
     if (currentOverlay && lastEditedCard) {
-      saveCurrentOverlay();
+      updateDatasetOnly();
+      markUnsaved();
       removeOverlay();
       showSaveRevertButtons(toolbar);
     }
@@ -71,7 +93,7 @@ window.onload = async function() {
   homeIcon.addEventListener("drop", e => {
     e.preventDefault();
     toolbar.insertBefore(handyman, homeIcon);
-    if (currentOverlay && lastEditedCard) saveCurrentOverlay();
+    if (currentOverlay && lastEditedCard) updateDatasetOnly();
   });
 };
 

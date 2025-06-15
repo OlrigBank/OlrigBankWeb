@@ -52,11 +52,6 @@ menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
 
-[[menus]]
-id = "10"
-menu = "Shopping"
-text = "Local Shops with character"
-parent = "Local"
 
 [[offerings]]
 id = "1"
@@ -103,7 +98,7 @@ text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
 [[offerings]]
 id = "7"
 menu = "Shopping"
-text = "Watson & Wollard is a high quality traditional local butcher"
+text = "Watson & Wollard - a high quality traditional local butcher on the marketplace"
 link = "https://www.facebook.com/watsonandwoollardbutchers/"
 image = "watson-wollard"
 
@@ -155,4 +150,12 @@ menu = "Shopping"
 text = "The Staff Of Life - An absolutely lovely bakery"
 link = "https://www.facebook.com/bakenyinkendal/"
 image = "staff-of-life"
+
+[[offerings]]
+id = "16"
+menu = "Shopping"
+text = "Kendal Fish & Seafoods - A great fishmonger on Stramongate"
+link = "https://www.facebook.com/kendalfishltd/"
+image = "kendalfishandseafoods"
+
 
