@@ -36,9 +36,9 @@ let offeringSchema = null;
 window.onload = async function() {
   // 1) Fetch data + schemas in parallel
   const [data, ms, os] = await Promise.all([
-    fetch("/load").then(r => r.json()),
-    fetch("/schemas/menu.schema.json").then(r => r.json()),
-    fetch("/schemas/offering.schema.json").then(r => r.json())
+    fetch("load").then(r => r.json()),
+    fetch("schemas/menu.schema.json").then(r => r.json()),
+    fetch("schemas/offering.schema.json").then(r => r.json())
   ]);
   menuSchema     = ms;
   offeringSchema = os;
@@ -183,7 +183,7 @@ function showOverlay(card, data) {
         if (!f) return;
         const form = new FormData();
         form.append("file", f);
-        const resp = await fetch("/upload", { method: "POST", body: form });
+        const resp = await fetch("upload", { method: "POST", body: form });
         const json = await resp.json();
         if (json.filename) {
           // strip extension for main‐app ID, but keep raw name for preview
@@ -327,7 +327,7 @@ function showSaveRevertButtons(toolbar) {
       const ds = c.dataset;
       return { type: ds.type, ...ds };
     });
-    await fetch("/save", {
+    await fetch("save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ changes: payload })

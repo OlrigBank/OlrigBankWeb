@@ -91,7 +91,7 @@ id = "5"
 image = "qtm"
 link = "https://www.quaker-tapestry.co.uk/"
 menu = "Activities"
-text = "The Quaker Tapestry tells the story of Quakers in 77 embroidered panels"
+text = "The Quaker Tapestry - The story of Quakers in 77 embroidered panels"
 
 [[offerings]]
 id = "6"
@@ -176,4 +176,11 @@ menu = "Eating Out"
 text = "The Joshua Tree - Provides a great English Breakfast"
 link = "https://joshuatreebistro.co.uk/"
 image = "JoshuaTree"
+
+[[offerings]]
+id = "19"
+menu = "Antiques & Collectibles"
+text = "The Old Curiosity Shop -  A modern take on The Nutshell?"
+link = "https://tocshop.co.uk/"
+image = "tocshop"
 
