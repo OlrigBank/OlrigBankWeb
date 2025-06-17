@@ -139,7 +139,6 @@ def main():
     validate_structure(menus)
     generate_home_template()
     generate_generated_partials(menus, offerings)
-    generate_server()
     print(f"🎉 Site generation complete! Version {VERSION}")
 
 

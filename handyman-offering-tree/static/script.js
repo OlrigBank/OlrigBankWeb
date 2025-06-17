@@ -191,7 +191,7 @@ function showOverlay(card, data) {
          const name = raw.replace(/\.[^/.]+$/, "");
          card.dataset.image = name;
          row.querySelector(".preview").innerHTML =
-             `<img src="/static/images/${raw}" height="60">`;
+             `<img src="static/images/${raw}" height="60">`;
         } else {
           alert("Upload error: " + (json.error||"unknown"));
         }
