@@ -11,34 +11,31 @@ def health():
 def index():
     return render_template('home.html', title='Home', navigation='Home', version=VERSION)
 
-import os, sys
+# ——————————————————————————————————————————————————————————————————————
+# Mount the handyman-offering-tree app at /handyman and serve all on :8080
+# ——————————————————————————————————————————————————————————————————————
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.serving import run_simple
+import os, sys
 
-# — find & load your handyman app.py as a module —
-HANDY_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', 'handyman-offering-tree')
+# Ensure Python can import the handyman app (handyman-offering-tree is a sibling of src)
+HANDY_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'handyman_offering_tree')
 )
-HANDY_APP_PATH = os.path.join(HANDY_DIR, 'app.py')
+sys.path.insert(0, HANDY_PATH)
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("handyman_app", HANDY_APP_PATH)
-handy_mod = importlib.util.module_from_spec(spec)
-sys.modules["handyman_app"] = handy_mod
-spec.loader.exec_module(handy_mod)
+# Import the Flask instance from your handyman app.py
+from handyman_offering_tree.app import app as handyman_app
 
-# now grab the Flask instance from it
-handyman_app = handy_mod.app
-
-# your main app is still called `app` in this file
-from server import app  # or however you import your main Flask app
-
-# mount at /handyman
+# Compose main site + handyman under /handyman
 application = DispatcherMiddleware(app.wsgi_app, {
     '/handyman': handyman_app.wsgi_app
 })
 
 if __name__ == '__main__':
+    # This runs BOTH apps on 0.0.0.0:8080
+    # Main site at  http://<host>:8080/
+    # Handyman UI at http://<host>:8080/handyman/
     run_simple(
         hostname='0.0.0.0',
         port=8080,
