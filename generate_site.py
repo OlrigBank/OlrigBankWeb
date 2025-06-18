@@ -71,26 +71,6 @@ def generate_home_template():
     print(f"✅ Generated home.html")
 
 
-def generate_server():
-    with open(SERVER_FILE, "w") as f:
-        f.write("from flask import Flask, render_template\n")
-        f.write(f"VERSION = '{VERSION}'\n\n")
-        f.write('app = Flask(__name__, template_folder="../templates", static_folder="../static")\n\n')
-
-        f.write("@app.route('/health')\n")
-        f.write("def health():\n")
-        f.write("    return 'OK', 200\n\n")
-
-        f.write("@app.route('/')\n")
-        f.write("def index():\n")
-        f.write("    return render_template('home.html', title='Home', navigation='Home', version=VERSION)\n\n")
-
-        f.write("if __name__ == '__main__':\n")
-        f.write("    app.run(debug=True, host='0.0.0.0', port=8080)\n")
-
-    print(f"✅ Generated: {SERVER_FILE}")
-
-
 def generate_generated_partials(menus, offerings):
     tree = build_menu_tree(menus)
 

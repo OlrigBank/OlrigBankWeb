@@ -1,7 +1,10 @@
 import os
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
-
+import shutil
+import datetime
+import subprocess
+import sys
 
 try:
     import tomllib
@@ -31,7 +34,6 @@ def add_header(response):
     response.headers["Cache-Control"] = "no-store"
     return response
 
-@app.route("/save", methods=["POST"])
 @app.route("/save", methods=["POST"])
 def save_changes():
 
@@ -98,8 +100,33 @@ def save_changes():
     except ImportError:
         return jsonify({"error": "toml library not available for writing"}), 500
 
-    # 5) Return success
-    return jsonify({"status": "ok"})
+    # 5) Write back with backup + regenerate site
+    try:
+
+        import toml as toml_write
+        # → 1) Backup current TOML
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        bak_name = f"site_structure_{ts}.toml.bak"
+        bak_path = os.path.join(project_root, bak_name)
+        shutil.copy2(DATA_FILE, bak_path)
+
+        # → 2) Write the updated site_structure.toml
+
+        with open(DATA_FILE, "w") as f:
+            toml_write.dump(data, f)
+
+            # → 3) Regenerate the static site (run from project root so site_structure.toml is found)
+            gen_script = os.path.join(project_root, "generate_site.py")
+            subprocess.run(
+            [sys.executable, gen_script],
+                cwd = project_root,
+                check = True
+            )
+
+        return jsonify({"status": "ok", "backup": bak_name})
+    except ImportError:
+        return jsonify({"error": "toml library not available for writing"}), 500
 
 @app.route("/schemas/<path:filename>")
 def serve_schema(filename):

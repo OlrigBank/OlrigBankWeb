@@ -58,6 +58,12 @@ menu = "Antiques & Collectibles"
 text = "Shops that just a delight to wander around"
 parent = "Local"
 
+[[menus]]
+id = "11"
+menu = "Bars"
+text = "Mico breweries and more"
+parent = "Local"
+
 [[offerings]]
 id = "1"
 image = "whatsonkendal"
@@ -82,9 +88,9 @@ text = "Kendal People Cafe - A great place to eat and to see a community in acti
 [[offerings]]
 id = "4"
 image = "kendalcastle"
-link = "https://www.alltrails.com/trail/england/cumbria/kendal-castle-trail"
+link = "https://apathtosomewhere.co.uk/2021/04/14/kendal-castle/"
 menu = "Local Walks"
-text = "The Castle - Play the grand old Duke of Kendal!"
+text = "Kendal Castle - The first walk to take after you have settled in to Olrig Bank!"
 
 [[offerings]]
 id = "5"
@@ -183,4 +189,32 @@ menu = "Antiques & Collectibles"
 text = "The Old Curiosity Shop -  A modern take on The Nutshell?"
 link = "https://tocshop.co.uk/"
 image = "tocshop"
+
+[[offerings]]
+id = "20"
+menu = "Bars"
+text = "The Fell - An absolutely cracking bar with atmosphere and games"
+link = "https://fellbrewery.co.uk/venues/fell-kendal/"
+image = "thefell"
+
+[[offerings]]
+id = "21"
+menu = "Local Walks"
+text = "Serpentine Woods - From Noble's Rest Park it is short upwards walk to the entrance to the woods"
+link = "https://apathtosomewhere.co.uk/2023/03/21/serpentine-woods-kendal/"
+image = "serpentine-woods"
+
+[[offerings]]
+id = "22"
+menu = "Local Walks"
+text = "Cunswick Scar and Scout Scar - Starting from the Serpentine Woods a 7.25 mile circular route that Wainright described as: a walk above others, a pleasure every step of the way"
+link = "https://www.wainwrightwalking.co.uk/cunswick-scar-and-scout-scar/"
+image = "scoutscar"
+
+[[offerings]]
+id = "23"
+menu = "Local Walks"
+text = "Steverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
+link = "https://www.cumbriawildlifetrust.org.uk/nature-reserves/staveley-woodlands"
+image = "SraveleyWoodlands"
 
