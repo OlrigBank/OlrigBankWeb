@@ -20,13 +20,25 @@ text = "Gentle Walks, Rambling, Climbing and much, much more"
 id = "5"
 menu = "Close to home"
 parent = "Outdoor Persuits"
-text = "Refreshing walks in the vicinity of Olrig Bank"
+text = "Exploring in the Great Outdoors"
+
+[[menus]]
+id = "5"
+menu = "Further afield"
+parent = "Outdoor Persuits"
+text = "Exploring in the Great Outdoors"
+
+[[menus]]
+id = "12"
+menu = "Cycling"
+text = "Range far and wide without the car!"
+parent = "Outdoor Persuits"
 
 [[menus]]
 id = "3"
 menu = "Local"
 parent = "Home"
-text = "Olrig Bank's recommended local delights"
+text = "Local delights"
 
 [[menus]]
 id = "4"
@@ -34,7 +46,11 @@ menu = "Eating Out"
 parent = "Local"
 text = "Places we where we love to eat"
 
-
+[[menus]]
+id = "11"
+menu = "Bars"
+text = "Mico breweries and more"
+parent = "Local"
 
 [[menus]]
 id = "6"
@@ -55,22 +71,16 @@ text = "Live Music Venues"
 parent = "Local"
 
 [[menus]]
-id = "9"
-menu = "Festivals"
-text = "Gatherings that are still come this year"
-parent = "Home"
-
-[[menus]]
 id = "10"
 menu = "Antiques & Collectibles"
 text = "Shops that just a delight to wander around"
 parent = "Local"
 
 [[menus]]
-id = "11"
-menu = "Bars"
-text = "Mico breweries and more"
-parent = "Local"
+id = "9"
+menu = "Festivals"
+text = "Gatherings that are still come this year"
+parent = "Home"
 
 [[offerings]]
 id = "1"
@@ -225,4 +235,39 @@ menu = "Close to home"
 text = "Steverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
 link = "https://www.cumbriawildlifetrust.org.uk/nature-reserves/staveley-woodlands"
 image = "SraveleyWoodlands"
+
+[[offerings]]
+id = "24"
+menu = "Further afield"
+text = "Gummer's How - An easy walk to a magnificent view over Windermere"
+link = "http://www.wainwrightroutes.co.uk/gummershow_r1.htm"
+image = "gummershowe"
+
+[[offerings]]
+id = "25"
+menu = "Further afield"
+text = "Fell Foot Park - Lakeshore park with stunning mountain views, Boathouse cafe, watersports hire and play area"
+link = "https://www.nationaltrust.org.uk/visit/lake-district/fell-foot"
+image = "fellfoot"
+
+[[offerings]]
+id = "26"
+menu = "Cycling"
+text = "Cycling around Kendal - courtesy of the Kendal Mountain Festival"
+link = "https://www.komoot.com/collection/1294854/road-mountain-biking-and-gravel-routes-from-kendal"
+image = "cyclingKendal"
+
+[[offerings]]
+id = "27"
+menu = "Activities"
+text = "The Albion Social & Snooker Club - Excellent snooker tables. Well-kept real ales at reasonable prices. Free entry for CAMRA members."
+link = "https://www.google.com/search?sa=X&sca_esv=43bdce033f74f264&rlz=1C1ONGR_enNL1022NL1022&tbm=lcl&sxsrf=AE3TifOIxWycKq1LfFWpmhgNkhOnw0-AnA:1750343693447&q=The+Albion+Social+%26+Snooker+Club+Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2NDY1MzY0MjCyNDW1tLQ0M7a02MDI-IpRIyQjVcExJykzP08hOD85MzFHQU0hOC8_Pzu1SME5pzRJISi1LDO1vHgRK9FKAajp5HFwAAAA&rldimm=1356312029559996398&hl=en-NL&ved=2ahUKEwiWvdSw2v2NAxVx1gIHHaVkNOkQ9fQKegQIVxAF&biw=2560&bih=1313&dpr=1#lkt=LocalPoiReviews"
+image = "AlbionSnookerHall"
+
+[[offerings]]
+id = "28"
+menu = "Festivals"
+text = "Kendal Walking Festival - This well established festival continues to demonstrate why Kendal makes a superb base for those who enjoy walking. Surrounded by beautiful scenery it offers a wide variety of walking experiences. It is a 5-minute drive into the Lake District National Park and 20 minutes from the Yorkshire Dales. In addition we have Arnside and Silverdale Area of Outstanding Natural Beauty just a few miles south of town.  We really do have it all....mountains, lakes, rivers, valleys and the wide open vistas of Morecambe Bay!!"
+link = "https://www.kendalwalkingfestival.co.uk/home"
+image = "kendalwalkingfestival"
 
