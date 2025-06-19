@@ -12,6 +12,18 @@ text = "Links to sites that will keep you abreast about what is happening"
 
 [[menus]]
 id = "3"
+menu = "Outdoor Persuits"
+parent = "Home"
+text = "Gentle Walks, Rambling, Climbing and much, much more"
+
+[[menus]]
+id = "5"
+menu = "Close to home"
+parent = "Outdoor Persuits"
+text = "Refreshing walks in the vicinity of Olrig Bank"
+
+[[menus]]
+id = "3"
 menu = "Local"
 parent = "Home"
 text = "Olrig Bank's recommended local delights"
@@ -22,11 +34,7 @@ menu = "Eating Out"
 parent = "Local"
 text = "Places we where we love to eat"
 
-[[menus]]
-id = "5"
-menu = "Local Walks"
-parent = "Local"
-text = "Good walks to take close to the house"
+
 
 [[menus]]
 id = "6"
@@ -89,7 +97,7 @@ text = "Kendal People Cafe - A great place to eat and to see a community in acti
 id = "4"
 image = "kendalcastle"
 link = "https://apathtosomewhere.co.uk/2021/04/14/kendal-castle/"
-menu = "Local Walks"
+menu = "Close to home"
 text = "Kendal Castle - The first walk to take after you have settled in to Olrig Bank!"
 
 [[offerings]]
@@ -199,21 +207,21 @@ image = "thefell"
 
 [[offerings]]
 id = "21"
-menu = "Local Walks"
+menu = "Close to home"
 text = "Serpentine Woods - From Noble's Rest Park it is short upwards walk to the entrance to the woods"
 link = "https://apathtosomewhere.co.uk/2023/03/21/serpentine-woods-kendal/"
 image = "serpentine-woods"
 
 [[offerings]]
 id = "22"
-menu = "Local Walks"
+menu = "Close to home"
 text = "Cunswick Scar and Scout Scar - Starting from the Serpentine Woods a 7.25 mile circular route that Wainright described as: a walk above others, a pleasure every step of the way"
 link = "https://www.wainwrightwalking.co.uk/cunswick-scar-and-scout-scar/"
 image = "scoutscar"
 
 [[offerings]]
 id = "23"
-menu = "Local Walks"
+menu = "Close to home"
 text = "Steverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
 link = "https://www.cumbriawildlifetrust.org.uk/nature-reserves/staveley-woodlands"
 image = "SraveleyWoodlands"
