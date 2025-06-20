@@ -14,7 +14,7 @@ text = "Links to sites that will keep you abreast about what is happening"
 id = "3"
 menu = "Outdoor Persuits"
 parent = "Home"
-text = "Gentle Walks, Rambling, Climbing and much, much more"
+text = "Local delights"
 
 [[menus]]
 id = "5"
@@ -34,6 +34,8 @@ menu = "Cycling"
 text = "Range far and wide without the car!"
 parent = "Outdoor Persuits"
 
+
+
 [[menus]]
 id = "3"
 menu = "Local"
@@ -49,7 +51,7 @@ text = "Places we where we love to eat"
 [[menus]]
 id = "11"
 menu = "Bars"
-text = "Mico breweries and more"
+text = "Watering holes for every taste"
 parent = "Local"
 
 [[menus]]
@@ -57,6 +59,12 @@ id = "6"
 menu = "Activities"
 parent = "Local"
 text = "A wide variety of local activities"
+
+[[menus]]
+id = "13"
+menu = "Exhibitions"
+text = "All well worth a visit "
+parent = "Local"
 
 [[menus]]
 id = "7"
@@ -81,6 +89,8 @@ id = "9"
 menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
+
+
 
 [[offerings]]
 id = "1"
@@ -110,12 +120,7 @@ link = "https://apathtosomewhere.co.uk/2021/04/14/kendal-castle/"
 menu = "Close to home"
 text = "Kendal Castle - The first walk to take after you have settled in to Olrig Bank!"
 
-[[offerings]]
-id = "5"
-image = "qtm"
-link = "https://www.quaker-tapestry.co.uk/"
-menu = "Activities"
-text = "The Quaker Tapestry - The story of Quakers in 77 embroidered panels"
+
 
 [[offerings]]
 id = "6"
@@ -134,9 +139,9 @@ image = "watson-wollard"
 [[offerings]]
 id = "8"
 menu = "Music"
-text = "The Rifleman Arms - Live offerings from folk to jazz"
-link = "https://www.facebook.com/TheRiflemansArms/"
-image = "riflemansarms"
+text = "Ruskins - Popular town centre bar with regular live music from acoustic jam nights to reggae, folk nights to electronica - with the odd quiz night inbetween - Ruskins is a hidden gem on Kendal high street"
+link = "https://www.facebook.com/Ruskinskendal"
+image = "ruskins"
 
 [[offerings]]
 id = "9"
@@ -284,4 +289,25 @@ menu = "Further afield"
 text = "Ingleborough Cave -  A visit could give you a taste for serious caving"
 link = "https://ingleboroughcave.co.uk/"
 image = "ingenlboroughcave"
+
+[[offerings]]
+id = "31"
+menu = "Bars"
+text = "Ring O Bells - Historic, quirky and charismatic local pub serving real ales and food homemade by landlady Su. Enjoy a drink in the cosy Bell Ringers Snug. Rumounred to be folk music sessions each Monday evening."
+link = "https://www.ringobellskendal.com/"
+image = "ring-o-bells"
+
+[[offerings]]
+id = "32"
+menu = "Exhibitions"
+text = "Abbot Hall - one of the UK''s leading art galleries. Established in 1962 in a Grade I listed Georgian building on the banks of the River Kent in Kendal, today we are rethinking the gallery as vibrant cultural and community hub. "
+link = "https://lakelandarts.org.uk/abbot-hall/"
+image = "abbothall"
+
+[[offerings]]
+id = "5"
+image = "qtm"
+link = "https://www.quaker-tapestry.co.uk/"
+menu = "Exhibitions"
+text = "The Quaker Tapestry - The story of Quakers in 77 embroidered panels"
 
