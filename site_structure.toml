@@ -312,3 +312,38 @@ text = "The Helm - Situated near Oxenholme, just south east of Kendal and althou
 link = "https://www.friendsofthelakedistrict.org.uk/the-helm"
 image = "thehelm"
 
+[[offerings]]
+id = "34"
+menu = "Further afield"
+text = "Gurnal Dubs Tarn -  A beautiful tarn below the minor summit of Ulgraves, not far from the village of Staveley. On the walk in, you are rewarded with superb views across nearby Kendal. Although it is actually an artificial tarn, it still makes for a lovely spot for a wild swim in summer."
+link = "https://www.komoot.com/highlight/3590524"
+image = "GurnalDubsTarn"
+
+[[offerings]]
+id = "35"
+menu = "Further afield"
+text = "Rock Climbing - The Lakes is the ideal place to take a beginners course"
+link = "https://www.mountain-journeys.co.uk/trad-climbing-course-lake-district/"
+image = "tradclimbing"
+
+[[offerings]]
+id = "36"
+menu = "Close to home"
+text = "Sizergh Fell walk - The traditional agricultural estate that surrounds Sizergh offers dramatic views of the Lakeland Fells, the Pennines and Morecambe Bay, as well as a fantastic array of animals, birds, butterflies and wildflowers that vary with the seasons."
+link = "https://www.nationaltrust.org.uk/visit/lake-district/sizergh/sizergh-wildlife-walk"
+image = "SizerghFellwalk"
+
+[[offerings]]
+id = "37"
+menu = "Close to home"
+text = "Park End Moss wetland walk at Sizergh  - Park End Moss was once an area of degraded farmland which has now been transformed into a haven for wildlife. This circular walk takes you through historic parkland and ancient woodlands of the Sizergh estate and on to the wetland area which is popular with a variety of bird species."
+link = "https://www.nationaltrust.org.uk/visit/lake-district/sizergh/park-end-moss-wetland-walk-at-sizergh"
+image = "park-end-moss-wetland-walk-at-sizergh"
+
+[[offerings]]
+id = "38"
+menu = "Cycling"
+text = "The Bay Cycle Way - Kendal to the Arnside, Silverdale, Beetham loop"
+link = "https://www.waysaroundthebay.org.uk/cycle-morecambe-bay"
+image = "baycycleway"
+
