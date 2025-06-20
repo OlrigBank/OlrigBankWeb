@@ -271,3 +271,17 @@ text = "Kendal Walking Festival - This well established festival continues to de
 link = "https://www.kendalwalkingfestival.co.uk/home"
 image = "kendalwalkingfestival"
 
+[[offerings]]
+id = "29"
+menu = "Home"
+text = "Olrig Bank - A fine place to stay"
+link = "https://www.airbnb.co.uk/rooms/1291126414271510916?viralityEntryPoint=1&s=76&source_impression_id=p3_1750413104_P3PD8jAtNyPJE9WL"
+image = "olrigbank"
+
+[[offerings]]
+id = "30"
+menu = "Further afield"
+text = "Ingleborough Cave -  A visit could give you a taste for serious caving"
+link = "https://ingleboroughcave.co.uk/"
+image = "ingenlboroughcave"
+
