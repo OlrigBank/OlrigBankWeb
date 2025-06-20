@@ -34,8 +34,6 @@ menu = "Cycling"
 text = "Range far and wide without the car!"
 parent = "Outdoor Persuits"
 
-
-
 [[menus]]
 id = "3"
 menu = "Local"
@@ -90,8 +88,6 @@ menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
 
-
-
 [[offerings]]
 id = "1"
 image = "whatsonkendal"
@@ -119,8 +115,6 @@ image = "kendalcastle"
 link = "https://apathtosomewhere.co.uk/2021/04/14/kendal-castle/"
 menu = "Close to home"
 text = "Kendal Castle - The first walk to take after you have settled in to Olrig Bank!"
-
-
 
 [[offerings]]
 id = "6"
@@ -153,8 +147,8 @@ image = "mountain"
 [[offerings]]
 id = "10"
 menu = "Festivals"
-text = "The Lakes International Comic Art Festival - born in Kendal "
-link = "https://www.comicartfestival.com/"
+text = "The Lakes International Comic Art Festival - A fun family festival that has grown and grown over the last 10 years"
+link = "https://www.facebook.com/LakesInternationalComicArtFestival/"
 image = "comic-art-featival"
 
 [[offerings]]
@@ -237,7 +231,7 @@ image = "scoutscar"
 [[offerings]]
 id = "23"
 menu = "Close to home"
-text = "Steverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
+text = "Staverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
 link = "https://www.cumbriawildlifetrust.org.uk/nature-reserves/staveley-woodlands"
 image = "SraveleyWoodlands"
 
@@ -310,4 +304,11 @@ image = "qtm"
 link = "https://www.quaker-tapestry.co.uk/"
 menu = "Exhibitions"
 text = "The Quaker Tapestry - The story of Quakers in 77 embroidered panels"
+
+[[offerings]]
+id = "33"
+menu = "Close to home"
+text = "The Helm - Situated near Oxenholme, just south east of Kendal and although not a very high hill at 185m, it gives beautiful views."
+link = "https://www.friendsofthelakedistrict.org.uk/the-helm"
+image = "thehelm"
 
