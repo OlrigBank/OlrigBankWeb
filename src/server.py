@@ -11,6 +11,10 @@ def health():
 def index():
     return render_template('home.html', title='Home', navigation='Home', version=VERSION)
 
+@app.route("/mobile")
+def mobile():
+    return render_template("mobile.html")
+
 # ——————————————————————————————————————————————————————————————————————
 # Mount the handyman-offering-tree app at /handyman and serve all on :8080
 # ——————————————————————————————————————————————————————————————————————

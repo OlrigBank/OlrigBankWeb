@@ -1,0 +1,186 @@
+{% extends "_partials/_mobile_base.html" %}
+
+{% block title %}Mobile - Olrig Bank{% endblock %}
+
+{% block content %}
+<div x-data="mobileInterface()" x-init="init()"
+     class="w-full h-full overflow-hidden"
+     @swipeleft.window="if (view === 'main') view = 'menu'"
+     @swiperight.window="if (view === 'menu') view = 'main'">
+
+  <!-- Toggle Button -->
+  <div class="fixed top-2 right-2 z-50">
+    <button @click="view = (view === 'main' ? 'menu' : 'main')"
+            class="bg-white border rounded-full p-2 shadow">
+      <span x-text="view === 'main' ? '📂' : '📜'"></span>
+    </button>
+  </div>
+
+
+    <!-- Main View -->
+    <!-- Panels: only one is ever in the DOM -->
+    <!-- Main View -->
+    <div id="main-view" x-show="view === 'main'" x-cloak class="panel bg-white border border-gray-200 rounded-lg p-6 space-y-6 overflow-y-auto shadow-sm">
+
+      <!-- Display all menus, even those without offerings -->
+      <template x-for="menu in flatMenus" :key="menu.id">
+        <div :id="`menu-${menu.id}`" @click="navigateToTree(menu)" class="mb-8 border border-gray-200 rounded-lg p-4 bg-white hover:bg-gray-50 transition cursor-pointer">
+          <h2 class="text-xl font-semibold border-b pb-1 mb-2" x-text="menu.menu"></h2>
+          <p class="text-gray-600 mb-2" x-text="menu.text"></p>
+          <div class="space-y-4">
+            <template x-for="offer in groupedOfferings[menu.menu] || []" :key="offer.id">
+              <a :href="offer.link" @click.stop
+                 target="_blank"
+                   rel="noopener noreferrer"
+                   class="block bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition">
+                <h3 class="text-lg font-medium"
+                    x-text="offer.text.split(' - ')[0]"></h3>
+                <p class="text-sm text-gray-600"
+                   x-text="offer.text.split(' - ')[1] || ''"></p>
+              </a>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Menu Tree View -->
+    <div id="menu-tree" x-show="view === 'menu'" x-cloak tabindex="0" class="panel bg-white border-l border-gray-200 p-4 space-y-4 overflow-y-auto shadow-sm focus:outline-none">
+
+      <h2 class="text-xl font-bold">Menu</h2>
+      <ul class="text-sm text-gray-700 divide-y divide-gray-100">
+      <template x-for="item in menuTree" :key="item.id">
+        <li>
+            <div :id="`tree-menu-${item.id}`" @click="selectMenu(item)" class="cursor-pointer py-2 px-2 rounded transition hover:bg-blue-100" :class="{ 'font-semibold text-white bg-blue-600': selectedMenu && selectedMenu.id === item.id, 'text-gray-700': !(selectedMenu && selectedMenu.id === item.id) }">
+            <span x-text="item.menu"></span>
+          </div>
+            <template x-if="item.children.length">
+              <ul class="list-disc ml-4">
+            <template x-for="child in item.children" :key="child.id">
+              <li>
+                    <div @click="selectMenu(child)" class="cursor-pointer py-1 px-2 rounded transition hover:bg-blue-100" :class="{ 'font-medium bg-blue-50 text-blue-800': selectedMenu && selectedMenu.id === child.id, 'text-gray-600': !(selectedMenu && selectedMenu.id === child.id) }">
+                  <span x-text="child.menu"></span>
+                </div>
+                <template x-if="child.children.length">
+                      <ul class="list-disc ml-4">
+                    <template x-for="sub in child.children" :key="sub.id">
+                      <li>
+                        <div @click="selectMenu(sub)"
+                                 class="cursor-pointer py-1 hover:bg-blue-100"
+                             :class="{ 'bg-gray-100': selectedMenu && selectedMenu.id === sub.id }"
+                                 :style="'padding-left: ' + (sub.level * 1) + 'rem'">
+                          <span x-text="sub.menu"></span>
+                        </div>
+                      </li>
+                    </template>
+                  </ul>
+                </template>
+              </li>
+            </template>
+          </ul>
+            </template>
+        </li>
+      </template>
+    </ul>
+  </div>
+  </div>
+
+<script>
+  let touchStartX = null;
+  window.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+  window.addEventListener('touchend', e => {
+    const deltaX = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(deltaX) > 50) {
+      window.dispatchEvent(new CustomEvent(deltaX < 0 ? 'swipeleft' : 'swiperight'));
+    }
+  });
+
+function mobileInterface() {
+  return {
+      view: 'main',
+    menus: [],
+    offerings: [],
+    selectedMenu: null,
+
+            // flatten menus in tree order
+      get flatMenus() {
+        const result = [];
+        function traverse(nodes) {
+          nodes.forEach(n => {
+            result.push(n);
+            if (n.children && n.children.length) traverse(n.children);
+          });
+        }
+        traverse(this.menuTree);
+        return result;
+      },
+
+      // group offerings by menu name
+      get groupedOfferings() {
+        console.log('Grouping offerings by menu: raw offerings', this.offerings);
+        const grouped = {};
+        this.offerings.forEach(o => {
+          if (!grouped[o.menu]) grouped[o.menu] = [];
+          grouped[o.menu].push(o);
+        });
+        console.log('Grouped offerings:', grouped);
+        return grouped;
+      },
+
+      // build nested menu tree
+      get menuTree() {
+        console.log('Building menu tree from:', this.menus);
+        const map = new Map();
+        this.menus.forEach(m => map.set(m.id, { ...m, children: [] }));
+        const roots = [];
+        this.menus.forEach(m => {
+          const node = map.get(m.id);
+          if (m.parentId != null && map.has(m.parentId)) {
+            map.get(m.parentId).children.push(node);
+          } else {
+            roots.push(node);
+          }
+        });
+        console.log('Menu tree:', roots);
+        return roots;
+      },
+
+    init() {
+      fetch('/static/data/structure.json')
+        .then(res => res.json())
+        .then(data => {
+          this.menus = data.menus;
+          this.offerings = data.offerings;
+            console.log('Menus loaded:', this.menus);
+            console.log('Offerings loaded:', this.offerings);
+            this.selectedMenu = this.menus.find(m => m.level === 0) || null;
+            console.log('Default selected menu:', this.selectedMenu);
+        })
+          .catch(err => console.error('Failed to init:', err));
+    },
+
+    selectMenu(menu) {
+      this.selectedMenu = menu;
+        this.view = 'main';
+        this.$nextTick(() => {
+          const el = document.getElementById(`menu-${menu.id}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        console.log('Selected menu:', menu);
+      },
+
+      navigateToTree(menu) {
+        this.selectedMenu = menu;
+        this.view = 'menu';
+        this.$nextTick(() => {
+            const el = document.getElementById(`tree-menu-${menu.id}`);
+            if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+        });
+        console.log('Navigated to tree menu:', menu);
+      }
+
+
+    };
+}
+</script>
+{% endblock %}

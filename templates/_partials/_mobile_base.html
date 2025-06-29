@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Olrig Bank{% endblock %}</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Alpine.js -->
+  <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+    /* Viewport container holds two panels side-by-side */
+    .viewport {
+      display: flex;
+      width: 200vw;             /* two full-width panels using vw units */
+      height: 100vh;
+      transition: transform 0.3s ease-in-out;
+    }/* Each panel occupies exactly one viewport width */
+    .panel {
+      flex: 0 0 100vw;            /* fixed width of one viewport each */
+      height: 100vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  {% block content %}{% endblock %}
+</body>
+</html>

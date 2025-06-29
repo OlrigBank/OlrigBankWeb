@@ -1,347 +1,376 @@
 [[menus]]
-id = "1"
+id = "0.1"
+level=0
 menu = "Home"
 parent = ""
 text = "Welcome to Kendal the home of Olrig Bank"
 
 [[menus]]
-id = "2"
+id = "0.2"
+level=1
 menu = "Whats On"
 parent = "Home"
 text = "Links to sites that will keep you abreast about what is happening"
 
 [[menus]]
-id = "3"
-menu = "Outdoor Persuits"
+id = "0.3"
+level=1
+menu = "Outdoor Pursuits"
 parent = "Home"
 text = "Local delights"
 
 [[menus]]
-id = "5"
+id = "0.4"
+level=2
 menu = "Close to home"
-parent = "Outdoor Persuits"
+parent = "Outdoor Pursuits"
 text = "Exploring in the Great Outdoors"
 
 [[menus]]
-id = "5"
+id = "0.5"
+level=2
 menu = "Further afield"
-parent = "Outdoor Persuits"
+parent = "Outdoor Pursuits"
 text = "Exploring in the Great Outdoors"
 
 [[menus]]
-id = "12"
+id = "0.6"
+level=2
 menu = "Cycling"
 text = "Range far and wide without the car!"
-parent = "Outdoor Persuits"
+parent = "Outdoor Pursuits"
 
 [[menus]]
-id = "3"
+id = "0.7"
+level=1
 menu = "Local"
 parent = "Home"
 text = "Local delights"
 
 [[menus]]
-id = "4"
+id = "0.8"
+level=2
 menu = "Eating Out"
 parent = "Local"
 text = "Places we where we love to eat"
 
 [[menus]]
-id = "11"
+id = "0.9"
+level=2
 menu = "Bars"
 text = "Watering holes for every taste"
 parent = "Local"
 
 [[menus]]
-id = "6"
+id = "0.10"
+level=2
 menu = "Activities"
 parent = "Local"
 text = "A wide variety of local activities"
 
 [[menus]]
-id = "13"
+id = "0.11"
+level=2
 menu = "Exhibitions"
 text = "All well worth a visit "
 parent = "Local"
 
 [[menus]]
-id = "7"
+id = "0.12"
+level=2
 menu = "Shopping"
 text = "Local Shops with character"
 parent = "Local"
 
 [[menus]]
-id = "8"
+id = "0.13"
+level=2
 menu = "Music"
 text = "Live Music Venues"
 parent = "Local"
 
 [[menus]]
-id = "10"
-menu = "Antiques & Collectibles"
-text = "Shops that just a delight to wander around"
+id = "0.14"
+level=2
+menu = "Pre-owned"
+text = "Shops that can be just a delight to wander around"
 parent = "Local"
 
 [[menus]]
-id = "9"
+id = "0.15"
+level=3
+menu = "Antiques"
+text = "Hopefully full of objects that all over 100 years old and curated by people with years of experience"
+parent = "Pre-owned"
+
+[[menus]]
+id = "0.16"
+level=3
+menu = "Collectables"
+text = "Collectable is in the eye of the collector!"
+parent = "Pre-owned"
+
+[[menus]]
+id = "0.17"
+level=1
 menu = "Festivals"
 text = "Gatherings that are still come this year"
 parent = "Home"
 
 [[offerings]]
-id = "1"
+id = "1.1"
 image = "whatsonkendal"
 link = "https://visit-kendal.co.uk/"
 menu = "Whats On"
 text = "The Visit Kendal Site - The easiest way to find out what is going on in the town during your stay"
 
 [[offerings]]
-id = "2"
+id = "1.2"
 image = "Babaganoush"
 link = "https://babaganoushkendal.co.uk/"
 menu = "Eating Out"
 text = "Baba Ganoush - What a place! When it is open"
 
 [[offerings]]
-id = "3"
+id = "1.3"
 image = "kendalpeoplescafe"
 link = "https://wasteintowellbeing.org.uk/kendal-peoples-cafe/"
 menu = "Eating Out"
 text = "Kendal People Cafe - A great place to eat and to see a community in action"
 
 [[offerings]]
-id = "4"
+id = "1.4"
 image = "kendalcastle"
 link = "https://apathtosomewhere.co.uk/2021/04/14/kendal-castle/"
 menu = "Close to home"
 text = "Kendal Castle - The first walk to take after you have settled in to Olrig Bank!"
 
 [[offerings]]
-id = "6"
+id = "1.5"
 image = "kcw"
 link = "https://lakelandclimbingcentres.co.uk/centre/kendalwall/"
 menu = "Activities"
 text = "Kids climbing the walls? Why not visit the Kendal Climbing Wall!"
 
 [[offerings]]
-id = "7"
+id = "1.6"
 menu = "Shopping"
 text = "Watson & Wollard - a high quality traditional local butcher on the marketplace"
 link = "https://www.facebook.com/watsonandwoollardbutchers/"
 image = "watson-wollard"
 
 [[offerings]]
-id = "8"
+id = "1.7"
 menu = "Music"
 text = "Ruskins - Popular town centre bar with regular live music from acoustic jam nights to reggae, folk nights to electronica - with the odd quiz night inbetween - Ruskins is a hidden gem on Kendal high street"
 link = "https://www.facebook.com/Ruskinskendal"
 image = "ruskins"
 
 [[offerings]]
-id = "9"
+id = "1.8"
 menu = "Festivals"
 text = "The Kendal Mountain Festival - The Everest of Festivals "
 link = "https://www.kendalmountainfestival.com/"
 image = "mountain"
 
 [[offerings]]
-id = "10"
+id = "1.9"
 menu = "Festivals"
 text = "The Lakes International Comic Art Festival - A fun family festival that has grown and grown over the last 10 years"
 link = "https://www.facebook.com/LakesInternationalComicArtFestival/"
 image = "comic-art-featival"
 
 [[offerings]]
-id = "11"
+id = "1.10"
 menu = "Music"
 text = "The Brewery - Attracts great acts"
 link = "https://www.breweryarts.co.uk/whats-on/live-music/"
 image = "Brewery-music"
 
 [[offerings]]
-id = "13"
+id = "1.11"
 menu = "Music"
 text = "Kendal's Annual music Feastival"
 link = "https://visit-kendal.co.uk/event/kendal-music-festival-2/"
 image = "kendal-music-feastival"
 
 [[offerings]]
-id = "14"
+id = "1.12"
 menu = "Music"
 text = "Kendal Jazz club - New to the Brewery"
 link = "https://www.breweryarts.co.uk/event/jazz-club/"
 image = "kendal-jazz"
 
 [[offerings]]
-id = "15"
+id = "1.13"
 menu = "Shopping"
 text = "The Staff Of Life - An absolutely lovely bakery"
 link = "https://www.facebook.com/bakenyinkendal/"
 image = "staff-of-life"
 
 [[offerings]]
-id = "16"
+id = "1.14"
 menu = "Shopping"
 text = "Kendal Fish & Seafoods - A great fishmonger on Stramongate"
 link = "https://www.facebook.com/kendalfishltd/"
 image = "kendalfishandseafoods"
 
 [[offerings]]
-id = "17"
-menu = "Antiques & Collectibles"
+id = "1.15"
+menu = "Collectables"
 text = "The Nutshell - A gem, Crammed to the rafters with stuff! some of it is very valuable  "
 link = "https://www.google.com/maps/place//data=!4m2!3m1!1s0x487c8de746e95feb:0xbb11fc5e10c5b453?sa=X&ved=1t:8290&ictx=111"
 image = "nutshell"
 
 [[offerings]]
-id = "18"
+id = "1.16"
 menu = "Eating Out"
 text = "The Joshua Tree - Provides a great English Breakfast"
 link = "https://joshuatreebistro.co.uk/"
 image = "JoshuaTree"
 
 [[offerings]]
-id = "19"
-menu = "Antiques & Collectibles"
+id = "1.17"
+menu = "Antiques"
 text = "The Old Curiosity Shop -  A modern take on The Nutshell?"
 link = "https://tocshop.co.uk/"
 image = "tocshop"
 
 [[offerings]]
-id = "20"
+id = "1.18"
 menu = "Bars"
 text = "The Fell - An absolutely cracking bar with atmosphere and games"
 link = "https://fellbrewery.co.uk/venues/fell-kendal/"
 image = "thefell"
 
 [[offerings]]
-id = "21"
+id = "1.19"
 menu = "Close to home"
 text = "Serpentine Woods - From Noble's Rest Park it is short upwards walk to the entrance to the woods"
 link = "https://apathtosomewhere.co.uk/2023/03/21/serpentine-woods-kendal/"
 image = "serpentine-woods"
 
 [[offerings]]
-id = "22"
+id = "1.20"
 menu = "Close to home"
 text = "Cunswick Scar and Scout Scar - Starting from the Serpentine Woods a 7.25 mile circular route that Wainright described as: a walk above others, a pleasure every step of the way"
 link = "https://www.wainwrightwalking.co.uk/cunswick-scar-and-scout-scar/"
 image = "scoutscar"
 
 [[offerings]]
-id = "23"
+id = "1.21"
 menu = "Close to home"
 text = "Staverly Woodlands - Park in the village of Staverly. Walk past the bowling Green, cross a small stream and walk through a farm. From there you can find a circular route that takes you through these atmospheric woods , ending on a downhill walk though fields of sheep and back to the village"
 link = "https://www.cumbriawildlifetrust.org.uk/nature-reserves/staveley-woodlands"
 image = "SraveleyWoodlands"
 
 [[offerings]]
-id = "24"
+id = "1.22"
 menu = "Further afield"
 text = "Gummer's How - An easy walk to a magnificent view over Windermere"
 link = "http://www.wainwrightroutes.co.uk/gummershow_r1.htm"
 image = "gummershowe"
 
 [[offerings]]
-id = "25"
+id = "1.23"
 menu = "Further afield"
 text = "Fell Foot Park - Lakeshore park with stunning mountain views, Boathouse cafe, watersports hire and play area"
 link = "https://www.nationaltrust.org.uk/visit/lake-district/fell-foot"
 image = "fellfoot"
 
 [[offerings]]
-id = "26"
+id = "1.24"
 menu = "Cycling"
 text = "Cycling around Kendal - courtesy of the Kendal Mountain Festival"
 link = "https://www.komoot.com/collection/1294854/road-mountain-biking-and-gravel-routes-from-kendal"
 image = "cyclingKendal"
 
 [[offerings]]
-id = "27"
+id = "1.25"
 menu = "Activities"
 text = "The Albion Social & Snooker Club - Excellent snooker tables. Well-kept real ales at reasonable prices. Free entry for CAMRA members."
 link = "https://www.google.com/search?sa=X&sca_esv=43bdce033f74f264&rlz=1C1ONGR_enNL1022NL1022&tbm=lcl&sxsrf=AE3TifOIxWycKq1LfFWpmhgNkhOnw0-AnA:1750343693447&q=The+Albion+Social+%26+Snooker+Club+Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxI2NDY1MzY0MjCyNDW1tLQ0M7a02MDI-IpRIyQjVcExJykzP08hOD85MzFHQU0hOC8_Pzu1SME5pzRJISi1LDO1vHgRK9FKAajp5HFwAAAA&rldimm=1356312029559996398&hl=en-NL&ved=2ahUKEwiWvdSw2v2NAxVx1gIHHaVkNOkQ9fQKegQIVxAF&biw=2560&bih=1313&dpr=1#lkt=LocalPoiReviews"
 image = "AlbionSnookerHall"
 
 [[offerings]]
-id = "28"
+id = "1.26"
 menu = "Festivals"
 text = "Kendal Walking Festival - This well established festival continues to demonstrate why Kendal makes a superb base for those who enjoy walking. Surrounded by beautiful scenery it offers a wide variety of walking experiences. It is a 5-minute drive into the Lake District National Park and 20 minutes from the Yorkshire Dales. In addition we have Arnside and Silverdale Area of Outstanding Natural Beauty just a few miles south of town.  We really do have it all....mountains, lakes, rivers, valleys and the wide open vistas of Morecambe Bay!!"
 link = "https://www.kendalwalkingfestival.co.uk/home"
 image = "kendalwalkingfestival"
 
 [[offerings]]
-id = "29"
+id = "1.27"
 menu = "Home"
 text = "Olrig Bank - A fine place to stay"
 link = "https://www.airbnb.co.uk/rooms/1291126414271510916?viralityEntryPoint=1&s=76&source_impression_id=p3_1750413104_P3PD8jAtNyPJE9WL"
 image = "olrigbank"
 
 [[offerings]]
-id = "30"
+id = "1.28"
 menu = "Further afield"
 text = "Ingleborough Cave -  A visit could give you a taste for serious caving"
 link = "https://ingleboroughcave.co.uk/"
 image = "ingenlboroughcave"
 
 [[offerings]]
-id = "31"
+id = "1.29"
 menu = "Bars"
 text = "Ring O Bells - Historic, quirky and charismatic local pub serving real ales and food homemade by landlady Su. Enjoy a drink in the cosy Bell Ringers Snug. Rumounred to be folk music sessions each Monday evening."
 link = "https://www.ringobellskendal.com/"
 image = "ring-o-bells"
 
 [[offerings]]
-id = "32"
+id = "1.30"
 menu = "Exhibitions"
 text = "Abbot Hall - one of the UK''s leading art galleries. Established in 1962 in a Grade I listed Georgian building on the banks of the River Kent in Kendal, today we are rethinking the gallery as vibrant cultural and community hub. "
 link = "https://lakelandarts.org.uk/abbot-hall/"
 image = "abbothall"
 
 [[offerings]]
-id = "5"
+id = "1.31"
 image = "qtm"
 link = "https://www.quaker-tapestry.co.uk/"
 menu = "Exhibitions"
 text = "The Quaker Tapestry - The story of Quakers in 77 embroidered panels"
 
 [[offerings]]
-id = "33"
+id = "1.32"
 menu = "Close to home"
 text = "The Helm - Situated near Oxenholme, just south east of Kendal and although not a very high hill at 185m, it gives beautiful views."
 link = "https://www.friendsofthelakedistrict.org.uk/the-helm"
 image = "thehelm"
 
 [[offerings]]
-id = "34"
+id = "1.33"
 menu = "Further afield"
 text = "Gurnal Dubs Tarn -  A beautiful tarn below the minor summit of Ulgraves, not far from the village of Staveley. On the walk in, you are rewarded with superb views across nearby Kendal. Although it is actually an artificial tarn, it still makes for a lovely spot for a wild swim in summer."
 link = "https://www.komoot.com/highlight/3590524"
 image = "GurnalDubsTarn"
 
 [[offerings]]
-id = "35"
+id = "1.34"
 menu = "Further afield"
 text = "Rock Climbing - The Lakes is the ideal place to take a beginners course"
 link = "https://www.mountain-journeys.co.uk/trad-climbing-course-lake-district/"
 image = "tradclimbing"
 
 [[offerings]]
-id = "36"
+id = "1.35"
 menu = "Close to home"
 text = "Sizergh Fell walk - The traditional agricultural estate that surrounds Sizergh offers dramatic views of the Lakeland Fells, the Pennines and Morecambe Bay, as well as a fantastic array of animals, birds, butterflies and wildflowers that vary with the seasons."
 link = "https://www.nationaltrust.org.uk/visit/lake-district/sizergh/sizergh-wildlife-walk"
 image = "SizerghFellwalk"
 
 [[offerings]]
-id = "37"
+id = "1.36"
 menu = "Close to home"
 text = "Park End Moss wetland walk at Sizergh  - Park End Moss was once an area of degraded farmland which has now been transformed into a haven for wildlife. This circular walk takes you through historic parkland and ancient woodlands of the Sizergh estate and on to the wetland area which is popular with a variety of bird species."
 link = "https://www.nationaltrust.org.uk/visit/lake-district/sizergh/park-end-moss-wetland-walk-at-sizergh"
 image = "park-end-moss-wetland-walk-at-sizergh"
 
 [[offerings]]
-id = "38"
+id = "1.37"
 menu = "Cycling"
 text = "The Bay Cycle Way - Kendal to the Arnside, Silverdale, Beetham loop"
 link = "https://www.waysaroundthebay.org.uk/cycle-morecambe-bay"
