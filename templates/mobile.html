@@ -20,33 +20,50 @@
     <!-- Main View -->
     <!-- Panels: only one is ever in the DOM -->
     <!-- Main View -->
-    <div id="main-view" x-show="view === 'main'" x-cloak class="panel bg-white border border-gray-200 rounded-lg p-6 space-y-6 overflow-y-auto shadow-sm">
+<div id="main-view" x-show="view === 'main'" x-cloak
+     class="panel bg-white border border-gray-200 rounded-lg p-6 space-y-6 overflow-y-auto shadow-sm">
 
-      <!-- Display all menus, even those without offerings -->
-      <template x-for="menu in flatMenus" :key="menu.id">
-        <div :id="`menu-${menu.id}`" @click="navigateToTree(menu)" class="mb-8 border border-gray-200 rounded-lg p-4 bg-white hover:bg-gray-50 transition cursor-pointer">
-          <h2 class="text-xl font-semibold border-b pb-1 mb-2" x-text="menu.menu"></h2>
-          <p class="text-gray-600 mb-2" x-text="menu.text"></p>
-          <div class="space-y-4">
-            <template x-for="offer in groupedOfferings[menu.menu] || []" :key="offer.id">
-              <a :href="offer.link" @click.stop
-                 target="_blank"
-                   rel="noopener noreferrer"
-                   class="block bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition">
-                <h3 class="text-lg font-medium"
-                    x-text="offer.text.split(' - ')[0]"></h3>
-                <p class="text-sm text-gray-600"
-                   x-text="offer.text.split(' - ')[1] || ''"></p>
-              </a>
+  <!-- Display all menus, even those without offerings -->
+  <template x-for="menu in flatMenus" :key="menu.id">
+    <div :id="`menu-${menu.id}`"
+         @click="navigateToTree(menu)"
+         class="mb-8 border border-gray-200 rounded-lg p-4 bg-white hover:bg-gray-50 transition cursor-pointer">
+      <h2 class="text-xl font-semibold border-b pb-1 mb-2" x-text="menu.menu"></h2>
+      <p class="text-gray-600 mb-2" x-text="menu.text"></p>
+      <div class="space-y-4">
+        <template x-for="offer in groupedOfferings[menu.menu] || []" :key="offer.id">
+          <a :href="offer.link"
+             @click.stop
+             target="_blank"
+             rel="noopener noreferrer"
+             class="flex items-center space-x-4 bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition">
+
+            <!-- Thumbnail (only if offer.image is defined) -->
+            <template x-if="offer.image">
+              <img
+                :src="`/static/images/${offer.image}.png`"
+                :alt="offer.text"
+                class="w-16 h-16 object-cover rounded"
+              />
             </template>
-          </div>
-        </div>
-      </template>
+
+            <!-- Text content -->
+            <div class="flex-1">
+              <h3 class="text-lg font-medium"
+                  x-text="offer.text.split(' - ')[0]"></h3>
+              <p class="text-sm text-gray-600"
+                 x-text="offer.text.split(' - ')[1] || ''"></p>
+            </div>
+          </a>
+        </template>
+      </div>
     </div>
+  </template>
+</div>
+
 
     <!-- Menu Tree View -->
-    <div id="menu-tree" x-show="view === 'menu'" x-cloak tabindex="0" class="panel bg-white border-l border-gray-200 p-4 space-y-4 overflow-y-auto shadow-sm focus:outline-none">
-
+    <div id="menu-tree" x-show="view === 'menu'" x-cloak tabindex="0" class="w-screen flex-shrink-0 panel bg-white border-l border-gray-200 p-4 space-y-4 overflow-y-auto shadow-sm focus:outline-none">
       <h2 class="text-xl font-bold">Menu</h2>
       <ul class="text-sm text-gray-700 divide-y divide-gray-100">
       <template x-for="item in menuTree" :key="item.id">
@@ -84,6 +101,7 @@
     </ul>
   </div>
   </div>
+</div>
 
 <script>
   let touchStartX = null;
@@ -175,11 +193,11 @@ function mobileInterface() {
         this.$nextTick(() => {
             const el = document.getElementById(`tree-menu-${menu.id}`);
             if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+          const panelEl = document.getElementById('menu-tree');
+          if (panelEl) panelEl.focus();
         });
         console.log('Navigated to tree menu:', menu);
       }
-
-
     };
 }
 </script>
