@@ -18,7 +18,7 @@ FROM base AS builder
 
 COPY . .
 
-RUN python generate_site.py
+RUN python export_structure.py
 
 # ---------- Production stage ----------
 FROM base AS production

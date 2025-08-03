@@ -1,4 +1,4 @@
-import toml
+import tomllib
 import json
 import os
 
@@ -8,8 +8,8 @@ TOML_PATH = os.path.join(HERE, "site_structure.toml")
 JSON_PATH = os.path.join(HERE, "static", "data", "structure.json")
 
 # Load site_structure.toml
-with open(TOML_PATH, "r", encoding="utf-8") as f:
-    data = toml.load(f)
+with open("site_structure.toml","rb") as f:
+    data = tomllib.load(f)
 
 # Ensure output directory exists
 os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
