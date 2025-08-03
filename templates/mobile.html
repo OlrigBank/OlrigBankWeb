@@ -36,19 +36,19 @@
              @click.stop
              target="_blank"
              rel="noopener noreferrer"
-             class="flex items-center space-x-4 bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition">
+             class="block bg-white border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-md transition">
 
             <!-- Thumbnail (only if offer.image is defined) -->
             <template x-if="offer.image">
               <img
                 :src="`/static/images/${offer.image}.png`"
-                :alt="offer.text"
-                class="w-16 h-16 object-cover rounded"
+                :alt="offer.title"
+                class="w-full h-250 object-cover"
               />
             </template>
 
             <!-- Text content -->
-            <div class="p-4 flex-1">
+            <div class="p-4">
              <h3 class="text-lg font-medium" x-text="offer.title"></h3>
              <p class="text-sm text-gray-600" x-text="offer.description"></p>
             </div>
