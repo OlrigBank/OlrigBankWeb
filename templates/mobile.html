@@ -48,11 +48,9 @@
             </template>
 
             <!-- Text content -->
-            <div class="flex-1">
-              <h3 class="text-lg font-medium"
-                  x-text="offer.text.split(' - ')[0]"></h3>
-              <p class="text-sm text-gray-600"
-                 x-text="offer.text.split(' - ')[1] || ''"></p>
+            <div class="p-4 flex-1">
+             <h3 class="text-lg font-medium" x-text="offer.title"></h3>
+             <p class="text-sm text-gray-600" x-text="offer.description"></p>
             </div>
           </a>
         </template>
@@ -153,8 +151,8 @@ function mobileInterface() {
         const roots = [];
         this.menus.forEach(m => {
           const node = map.get(m.id);
-          if (m.parentId != null && map.has(m.parentId)) {
-            map.get(m.parentId).children.push(node);
+          if (m.parent != null && map.has(m.parent)) {
+            map.get(m.parent).children.push(node);
           } else {
             roots.push(node);
           }
