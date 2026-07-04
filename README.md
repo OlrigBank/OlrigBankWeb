@@ -159,3 +159,7 @@ Clean up from generate_site.py
 rm -r src
 rm -r templates/generated
 ```
+
+# Migration from Windows to Linux
+
+This is the start of that migration
